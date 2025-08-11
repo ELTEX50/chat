@@ -1,0 +1,1938 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}چت با PIMXCHAT{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Gemini-style Chat Layout - Enhanced */
+body {
+    overflow: hidden;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.chat-container {
+    height: calc(100vh - 80px);
+    display: flex;
+    background: var(--bg-primary);
+    position: fixed;
+    top: 80px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+/* Lively Background Animations */
+.animated-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+/* Floating Particles */
+.floating-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: linear-gradient(45deg, var(--neon-purple), #8b5cf6, #a855f7);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+    opacity: 0.6;
+    filter: blur(1px);
+}
+
+.particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 8s; }
+.particle:nth-child(2) { left: 20%; animation-delay: 1s; animation-duration: 7s; }
+.particle:nth-child(3) { left: 30%; animation-delay: 2s; animation-duration: 9s; }
+.particle:nth-child(4) { left: 40%; animation-delay: 3s; animation-duration: 6s; }
+.particle:nth-child(5) { left: 50%; animation-delay: 4s; animation-duration: 8s; }
+.particle:nth-child(6) { left: 60%; animation-delay: 5s; animation-duration: 7s; }
+.particle:nth-child(7) { left: 70%; animation-delay: 6s; animation-duration: 9s; }
+.particle:nth-child(8) { left: 80%; animation-delay: 7s; animation-duration: 6s; }
+.particle:nth-child(9) { left: 90%; animation-delay: 8s; animation-duration: 8s; }
+.particle:nth-child(10) { left: 15%; animation-delay: 9s; animation-duration: 7s; }
+.particle:nth-child(11) { left: 25%; animation-delay: 10s; animation-duration: 9s; }
+.particle:nth-child(12) { left: 35%; animation-delay: 11s; animation-duration: 6s; }
+.particle:nth-child(13) { left: 45%; animation-delay: 12s; animation-duration: 8s; }
+.particle:nth-child(14) { left: 55%; animation-delay: 13s; animation-duration: 7s; }
+.particle:nth-child(15) { left: 65%; animation-delay: 14s; animation-duration: 9s; }
+.particle:nth-child(16) { left: 75%; animation-delay: 15s; animation-duration: 6s; }
+.particle:nth-child(17) { left: 85%; animation-delay: 16s; animation-duration: 8s; }
+.particle:nth-child(18) { left: 95%; animation-delay: 17s; animation-duration: 7s; }
+
+/* Gradient Waves */
+.gradient-waves {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+}
+
+.wave {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, 
+        rgba(139, 92, 246, 0.3) 0%, 
+        rgba(168, 85, 247, 0.2) 25%, 
+        rgba(217, 70, 239, 0.3) 50%, 
+        rgba(236, 72, 153, 0.2) 75%, 
+        rgba(139, 92, 246, 0.3) 100%);
+    border-radius: 50%;
+    animation: wave-rotate 20s linear infinite;
+    top: -50%;
+    left: -50%;
+}
+
+.wave:nth-child(2) {
+    animation-duration: 25s;
+    animation-direction: reverse;
+    background: linear-gradient(45deg, 
+        rgba(59, 130, 246, 0.2) 0%, 
+        rgba(99, 102, 241, 0.3) 25%, 
+        rgba(139, 92, 246, 0.2) 50%, 
+        rgba(168, 85, 247, 0.3) 75%, 
+        rgba(59, 130, 246, 0.2) 100%);
+}
+
+.wave:nth-child(3) {
+    animation-duration: 30s;
+    background: linear-gradient(45deg, 
+        rgba(16, 185, 129, 0.2) 0%, 
+        rgba(34, 197, 94, 0.3) 25%, 
+        rgba(59, 130, 246, 0.2) 50%, 
+        rgba(99, 102, 241, 0.3) 75%, 
+        rgba(16, 185, 129, 0.2) 100%);
+}
+
+/* Orbital Rings */
+.orbital-rings {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.05;
+}
+
+.ring {
+    position: absolute;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--neon-purple), transparent, var(--neon-purple));
+    background-clip: border-box;
+    animation: orbit 15s linear infinite;
+}
+
+.ring:nth-child(1) {
+    width: 200px;
+    height: 200px;
+    top: 20%;
+    left: 10%;
+    animation-duration: 20s;
+}
+
+.ring:nth-child(2) {
+    width: 300px;
+    height: 300px;
+    top: 60%;
+    right: 10%;
+    animation-duration: 25s;
+    animation-direction: reverse;
+}
+
+.ring:nth-child(3) {
+    width: 150px;
+    height: 150px;
+    bottom: 20%;
+    left: 50%;
+    animation-duration: 18s;
+}
+
+/* Floating Shapes */
+.floating-shapes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+}
+
+.shape {
+    position: absolute;
+    animation: float-shape 10s ease-in-out infinite;
+}
+
+.shape:nth-child(1) {
+    width: 20px;
+    height: 20px;
+    background: var(--neon-purple);
+    border-radius: 50%;
+    top: 15%;
+    left: 15%;
+    animation-delay: 0s;
+}
+
+.shape:nth-child(2) {
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 25px solid #8b5cf6;
+    top: 25%;
+    right: 20%;
+    animation-delay: 2s;
+}
+
+.shape:nth-child(3) {
+    width: 25px;
+    height: 25px;
+    background: #a855f7;
+    transform: rotate(45deg);
+    top: 70%;
+    left: 25%;
+    animation-delay: 4s;
+}
+
+.shape:nth-child(4) {
+    width: 30px;
+    height: 15px;
+    background: #c084fc;
+    border-radius: 15px;
+    top: 45%;
+    right: 30%;
+    animation-delay: 6s;
+}
+
+.shape:nth-child(5) {
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 20px solid #e879f9;
+    top: 80%;
+    left: 70%;
+    animation-delay: 8s;
+}
+
+/* Energy Field */
+.energy-field {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.03;
+}
+
+.energy-pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, var(--neon-purple) 0%, transparent 70%);
+    animation: energy-pulse 8s ease-in-out infinite;
+}
+
+/* Interactive Cursor Trail */
+.cursor-trail {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.trail-dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: var(--neon-purple);
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: trail-fade 1s ease-out forwards;
+}
+
+/* Animation Keyframes */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.6;
+    }
+    25% {
+        transform: translateY(-20px) rotate(90deg);
+        opacity: 0.8;
+    }
+    50% {
+        transform: translateY(-40px) rotate(180deg);
+        opacity: 1;
+    }
+    75% {
+        transform: translateY(-20px) rotate(270deg);
+        opacity: 0.8;
+    }
+}
+
+@keyframes wave-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes orbit {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes float-shape {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg) scale(1);
+        opacity: 0.1;
+    }
+    25% {
+        transform: translateY(-30px) rotate(90deg) scale(1.1);
+        opacity: 0.2;
+    }
+    50% {
+        transform: translateY(-60px) rotate(180deg) scale(1.2);
+        opacity: 0.3;
+    }
+    75% {
+        transform: translateY(-30px) rotate(270deg) scale(1.1);
+        opacity: 0.2;
+    }
+}
+
+@keyframes energy-pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.03;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.08;
+    }
+}
+
+@keyframes trail-fade {
+    0% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+}
+
+/* Glow Effects */
+.glow-effect {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, 
+        rgba(139, 92, 246, 0.1) 0%, 
+        rgba(168, 85, 247, 0.05) 30%, 
+        transparent 70%);
+    animation: glow-pulse 4s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+    0%, 100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+/* Matrix Rain Effect */
+.matrix-rain {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.02;
+    overflow: hidden;
+}
+
+.rain-column {
+    position: absolute;
+    top: -100%;
+    color: var(--neon-purple);
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    animation: matrix-fall 3s linear infinite;
+    text-shadow: 0 0 5px var(--neon-purple);
+}
+
+@keyframes matrix-fall {
+    0% {
+        top: -100%;
+        opacity: 1;
+    }
+    100% {
+        top: 100%;
+        opacity: 0;
+    }
+}
+
+@keyframes explosion {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* Interactive Hover Effects */
+.chat-container:hover .floating-particles .particle {
+    animation-duration: 3s;
+}
+
+.chat-container:hover .gradient-waves .wave {
+    animation-duration: 10s;
+}
+
+.chat-container:hover .orbital-rings .ring {
+    animation-duration: 8s;
+}
+
+/* Message Animation Enhancements */
+.message {
+    position: relative;
+    overflow: hidden;
+}
+
+.message::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.message:hover::before {
+    left: 100%;
+}
+
+/* Button Hover Effects */
+.new-chat-btn:hover,
+.send-btn:hover,
+.action-btn:hover {
+    animation: button-glow 0.3s ease-in-out;
+}
+
+@keyframes button-glow {
+    0% {
+        box-shadow: 0 0 5px var(--neon-purple);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--neon-purple), 0 0 30px var(--neon-purple);
+    }
+    100% {
+        box-shadow: 0 0 5px var(--neon-purple);
+    }
+}
+
+@keyframes ripple {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        width: 200px;
+        height: 200px;
+        opacity: 0;
+    }
+}
+
+@keyframes floating-text {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-20px) scale(1.2);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-40px) scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* Edit Mode Styles */
+.message.editing {
+    border: 2px solid var(--neon-purple);
+    border-radius: 12px;
+    background: rgba(139, 92, 246, 0.05);
+    animation: editing-pulse 2s ease-in-out infinite;
+}
+
+@keyframes editing-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
+    }
+}
+
+.message.updated {
+    animation: update-success 1s ease-out;
+}
+
+@keyframes update-success {
+    0% {
+        background: rgba(16, 185, 129, 0.1);
+        transform: scale(1.02);
+    }
+    100% {
+        background: transparent;
+        transform: scale(1);
+    }
+}
+
+.edited-indicator {
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+    font-style: italic;
+    margin-left: 4px;
+}
+
+/* Edit Mode Input Styles */
+.input-wrapper.editing {
+    border-color: var(--neon-purple);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.send-btn.editing {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.send-btn.editing:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+}
+
+/* Cancel Edit Button */
+.cancel-edit-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 6px;
+    padding: 4px 8px;
+    color: #ef4444;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    font-size: 0.75rem;
+    opacity: 0;
+    backdrop-filter: blur(10px);
+}
+
+.input-wrapper.editing .cancel-edit-btn {
+    opacity: 1;
+}
+
+.cancel-edit-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: #ef4444;
+    transform: scale(1.05);
+}
+
+/* Sidebar - Fixed Height */
+.chat-sidebar {
+    width: 320px;
+    height: calc(100vh - 80px);
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    z-index: 10;
+}
+
+.sidebar-header {
+    padding: 24px 20px;
+    border-bottom: 1px solid var(--border-color);
+    background: rgb(255, 255, 255);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+}
+
+.logo-glow {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: var(--gradient-primary);
+    border-radius: 8px;
+    filter: blur(8px);
+    opacity: 0.6;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.logo-text {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 1.5rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+    z-index: 1;
+}
+
+.new-chat-btn {
+    background: var(--gradient-button);
+    color: white;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.new-chat-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left var(--transition-medium);
+}
+
+.new-chat-btn:hover::before {
+    left: 100%;
+}
+
+.new-chat-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.chat-history {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+}
+
+.chat-history-item {
+    background: rgb(255, 255, 255);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 60px;
+}
+
+.chat-history-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: opacity var(--transition-medium);
+    z-index: -1;
+}
+
+.chat-history-item:hover {
+    border-color: var(--neon-purple);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
+}
+
+.chat-history-item:hover::before {
+    opacity: 0.1;
+}
+
+.history-content {
+    flex: 1;
+    min-width: 0; /* Allow text to wrap/truncate */
+    margin-right: 12px;
+    cursor: pointer;
+    padding: 4px 0;
+}
+
+.history-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+}
+
+.history-preview {
+    display: none; /* Hide preview to make it single line */
+}
+
+.history-time {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.history-actions {
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity var(--transition-medium);
+}
+
+.chat-history-item:hover .history-actions {
+    opacity: 1;
+}
+
+.action-icon-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 6px;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+}
+
+.action-icon-btn:hover {
+    transform: scale(1.1);
+}
+
+.action-icon-btn.delete-btn {
+    color: #ef4444;
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.action-icon-btn.delete-btn:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
+}
+
+.action-icon-btn.rename-btn {
+    color: var(--text-secondary);
+}
+
+.action-icon-btn.rename-btn:hover {
+    background: rgba(139, 92, 246, 0.1);
+    color: var(--neon-purple);
+    border-color: var(--neon-purple);
+}
+
+.rename-input {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 600;
+    width: 100%;
+    outline: none;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+.rename-input:focus {
+    background: rgba(139, 92, 246, 0.1);
+}
+
+.chat-history-item.active {
+    border-color: var(--neon-purple);
+    background: rgba(139, 92, 246, 0.05);
+}
+
+.chat-history-item.active::before {
+    opacity: 0.15;
+}
+
+.sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid var(--border-color);
+    background: rgb(255, 255, 255);
+    flex-shrink: 0;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.avatar-glow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    filter: blur(6px);
+    opacity: 0.5;
+}
+
+.user-avatar span {
+    color: white;
+    font-weight: 700;
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 1;
+}
+
+.user-details {
+    flex: 1;
+}
+
+.user-name {
+    display: block;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.user-status {
+    display: block;
+    color: #10b981;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Main Chat Area - Fixed Height */
+.chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 80px);
+    overflow: hidden;
+    background: var(--bg-primary);
+}
+
+.chat-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color);
+    background: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    backdrop-filter: blur(10px);
+}
+
+.sidebar-toggle {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    display: none;
+}
+
+.sidebar-toggle:hover {
+    border-color: var(--neon-purple);
+    background: rgba(139, 92, 246, 0.1);
+}
+
+.chat-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ai-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.avatar-pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    filter: blur(6px);
+    opacity: 0.5;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.ai-avatar svg {
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.chat-details h3 {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    font-size: 1rem;
+}
+
+.status {
+    color: #10b981;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.chat-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-medium);
+}
+
+.action-btn:hover {
+    border-color: var(--neon-purple);
+    color: var(--neon-purple);
+    background: rgba(139, 92, 246, 0.1);
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+    background: var(--bg-primary);
+}
+
+/* Grok-style Message Layout */
+.message {
+    display: flex;
+    gap: 0;
+    margin-bottom: 16px;
+    animation: fadeInUp 0.3s ease-out;
+    position: relative;
+    padding: 4px 0;
+}
+
+.message.user-message {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.message.ai-message {
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+/* Hide avatars completely */
+.message-avatar {
+    display: none;
+}
+
+.message-content {
+    flex: 1;
+    max-width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.message.user-message .message-content {
+    align-items: flex-end;
+}
+
+.message.ai-message .message-content {
+    align-items: flex-start;
+}
+
+.message-bubble {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 12px 16px;
+    transition: all var(--transition-medium);
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.message.user-message .message-bubble {
+    background: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+.message.ai-message .message-bubble {
+    background: #f8f9fa;
+    border-color: #e9ecef;
+    color: #212529;
+}
+
+.message-bubble p {
+    margin: 0;
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+.message.user-message .message-bubble p {
+    color: white;
+}
+
+.message.ai-message .message-bubble p {
+    color: #212529;
+}
+
+.message-bubble strong {
+    font-weight: 700;
+}
+
+.message-bubble em {
+    font-style: italic;
+}
+
+/* Grok-style Message Actions */
+.message-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity var(--transition-medium);
+    margin-top: 8px;
+    padding: 4px 0;
+}
+
+.message:hover .message-actions {
+    opacity: 1;
+}
+
+.message-action-btn {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 32px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.message-action-btn:hover {
+    border-color: var(--neon-purple);
+    color: var(--neon-purple);
+    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.message-action-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.message-action-btn.copy-btn:hover {
+    border-color: #10b981;
+    color: #10b981;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.message-action-btn.edit-btn:hover {
+    border-color: #f59e0b;
+    color: #f59e0b;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.message-action-btn.regenerate-btn:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.message-time {
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-top: 4px;
+    text-align: right;
+}
+
+.message.user-message .message-time {
+    text-align: left;
+}
+
+/* Remove old copy button styles */
+.message-copy-btn {
+    display: none;
+}
+
+/* Grok-style Chat Input */
+.chat-input-container {
+    padding: 24px;
+    border-top: 1px solid var(--border-color);
+    background: rgb(255, 255, 255);
+    flex-shrink: 0;
+    backdrop-filter: blur(10px);
+}
+
+/* Think Harder Button */
+.think-harder-container {
+    margin-bottom: 16px;
+}
+
+.think-harder-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 16px;
+    color: white;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.think-harder-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.think-harder-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.think-harder-btn .close-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    margin-left: auto;
+    transition: all var(--transition-medium);
+}
+
+.think-harder-btn .close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.think-harder-btn .close-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.input-wrapper {
+    position: relative;
+    background: rgb(255, 255, 255);
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    transition: all var(--transition-medium);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--neon-purple);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1), 0 4px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+#messageInput {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 8px 0;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    resize: none;
+    outline: none;
+    font-family: inherit;
+    min-height: 24px;
+    max-height: 120px;
+}
+
+#messageInput::placeholder {
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Grok-style Send Button */
+.send-btn {
+    background: var(--gradient-button);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    opacity: 0.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    font-weight: 600;
+}
+
+.send-btn:enabled {
+    opacity: 1;
+}
+
+.send-btn:enabled:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-hover);
+}
+
+.send-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Input Actions */
+.input-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.action-btn-small {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 6px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+}
+
+.action-btn-small:hover {
+    border-color: var(--neon-purple);
+    color: var(--neon-purple);
+    background: rgba(139, 92, 246, 0.1);
+}
+
+.typing-indicator {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    max-width: 70%;
+    align-self: flex-start;
+}
+
+.typing-dots {
+    display: flex;
+    gap: 4px;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    background: #6c757d;
+    border-radius: 50%;
+    animation: typing 1.4s ease-in-out infinite;
+}
+
+.dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.typing-indicator span {
+    color: #6c757d;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.chat-disclaimer {
+    text-align: center;
+    margin-top: 12px;
+    padding: 8px 0;
+}
+
+.chat-disclaimer span {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    opacity: 0.7;
+    font-style: italic;
+}
+
+/* Custom Scrollbar */
+.chat-history::-webkit-scrollbar,
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-history::-webkit-scrollbar-track,
+.chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-history::-webkit-scrollbar-thumb,
+.chat-messages::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+.chat-history::-webkit-scrollbar-thumb:hover,
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: var(--neon-purple);
+}
+
+/* Animations */
+@keyframes typing {
+    0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.4;
+    }
+    30% {
+        transform: translateY(-4px);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .chat-sidebar {
+        position: absolute;
+        left: -320px;
+        transition: left var(--transition-medium);
+        z-index: 1001;
+        width: 280px;
+        height: calc(100vh - 80px);
+    }
+    
+    .chat-sidebar.open {
+        left: 0;
+    }
+    
+    .chat-main {
+        width: 100%;
+        height: calc(100vh - 80px);
+    }
+    
+    .sidebar-toggle {
+        display: block;
+    }
+    
+    .chat-messages {
+        padding: 16px;
+    }
+    
+    .chat-input-container {
+        padding: 16px;
+    }
+    
+    .message-content {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .chat-sidebar {
+        width: 100%;
+        left: -100%;
+        height: calc(100vh - 80px);
+    }
+    
+    .message-content {
+        max-width: 95%;
+    }
+    
+    .chat-header {
+        padding: 16px;
+    }
+    
+    .chat-messages {
+        padding: 12px;
+    }
+    
+    .chat-input-container {
+        padding: 12px;
+    }
+}
+
+/* Performance Optimizations */
+* {
+    will-change: transform, opacity;
+}
+
+.floating-particles,
+.gradient-waves,
+.orbital-rings,
+.floating-shapes {
+    will-change: transform;
+}
+
+.particle,
+.wave,
+.ring,
+.shape {
+    will-change: transform, opacity;
+}
+
+/* Show navbar on chat page */
+.navbar {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1001;
+}
+
+/* Ensure no body padding on chat page */
+body.chat-page {
+    padding: 0 !important;
+}
+
+/* Hide footer on chat page */
+footer {
+    display: none !important;
+}
+
+/* Animation Performance */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="chat-container">
+    <!-- Lively Animated Background -->
+    <div class="animated-background">
+        <!-- Floating Particles -->
+        <div class="floating-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        
+        <!-- Gradient Waves -->
+        <div class="gradient-waves">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
+        
+        <!-- Orbital Rings -->
+        <div class="orbital-rings">
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+        </div>
+        
+        <!-- Floating Shapes -->
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        
+        <!-- Energy Field -->
+        <div class="energy-field">
+            <div class="energy-pulse"></div>
+        </div>
+        
+        <!-- Glow Effect -->
+        <div class="glow-effect"></div>
+        
+        <!-- Matrix Rain -->
+        <div class="matrix-rain" id="matrixRain"></div>
+    </div>
+    
+    <!-- Interactive Cursor Trail -->
+    <div class="cursor-trail" id="cursorTrail"></div>
+    
+    <!-- Chat Sidebar -->
+    <aside class="chat-sidebar" id="chatSidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <div class="logo-glow"></div>
+                <h2 class="logo-text">PIMXCHAT</h2>
+            </div>
+            <button class="new-chat-btn" id="newChatBtn" title="شروع چت جدید">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12h14"/>
+                </svg>
+                <span>چت جدید</span>
+            </button>
+        </div>
+        
+        <div class="chat-history" id="chatHistory">
+            <!-- Chat history items will be populated by JavaScript -->
+        </div>
+        
+
+    </aside>
+    
+    <!-- Main Chat Area -->
+    <main class="chat-main">
+        <div class="chat-header">
+            <button class="sidebar-toggle" id="sidebarToggle" title="تغییر وضعیت منو">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+            
+            <div class="chat-info">
+                <div class="ai-avatar">
+                    <div class="avatar-pulse"></div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </div>
+                <div class="chat-details">
+                    <h3>PIMXCHAT</h3>
+                    <span class="status">آنلاین</span>
+                </div>
+            </div>
+            
+            <div class="chat-actions">
+                <button class="action-btn" id="clearChatBtn" title="پاک کردن چت">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    </svg>
+                </button>
+                <button class="action-btn" id="exportChatBtn" title="خروجی گرفتن">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <!-- Welcome Message -->
+            <div class="message ai-message" id="welcomeMessage">
+                <div class="message-content">
+                    <div class="message-bubble">
+                        <p>سلام! 👋 من PIMXCHAT هستم 🤖 چطور می‌تونم کمکتون کنم؟ 😊</p>
+                    </div>
+                    <div class="message-actions">
+                        <button class="message-action-btn copy-btn" onclick="copyMessage(this)" title="کپی کردن پیام">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                            </svg>
+                            کپی
+                        </button>
+                        <button class="message-action-btn regenerate-btn" onclick="regenerateMessage(this)" title="تولید مجدد">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+                                <path d="M21 3v5h-5"/>
+                                <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+                                <path d="M3 21v-5h5"/>
+                            </svg>
+                            تولید مجدد
+                        </button>
+                    </div>
+                    <div class="message-time">اکنون</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-input-container">
+            <!-- Think Harder Button -->
+            <div class="think-harder-container" id="thinkHarderContainer" style="display: none;">
+                <button class="think-harder-btn" id="thinkHarderBtn" onclick="activateThinkHarder()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 1 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                    </svg>
+                    <span>فکر عمیق‌تر</span>
+                    <button class="close-btn" onclick="closeThinkHarder()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </button>
+            </div>
+            
+            <div class="input-wrapper" id="inputWrapper">
+                <button class="cancel-edit-btn" id="cancelEditBtn" onclick="cancelEdit()" style="display: none;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    لغو
+                </button>
+                <textarea 
+                    id="messageInput" 
+                    placeholder="پیام خود را بنویسید..."
+                    rows="1"
+                    maxlength="2000"
+                ></textarea>
+                <div class="input-actions">
+                    <button class="action-btn-small" id="micBtn" title="ضبط صدا">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                            <line x1="12" y1="19" x2="12" y2="23"/>
+                            <line x1="8" y1="23" x2="16" y2="23"/>
+                        </svg>
+                    </button>
+                    <button class="action-btn-small" id="attachBtn" title="پیوست فایل">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+                        </svg>
+                    </button>
+                </div>
+                <button class="send-btn" id="sendBtn" disabled>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m22 2-7 20-4-9-9-4 20-7z"/>
+                        <path d="M22 2 11 13"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <span>PimXChat is typing...</span>
+            </div>
+            <div class="chat-disclaimer">
+                <span>PimXChat can make mistakes.</span>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Chat History Item Template -->
+<template id="chatHistoryTemplate">
+    <div class="chat-history-item">
+        <div class="history-content">
+            <h4 class="history-title"></h4>
+            <p class="history-preview"></p>
+            <span class="history-time"></span>
+        </div>
+        <div class="history-actions">
+            <button class="action-icon-btn rename-btn" title="تغییر نام چت">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                </svg>
+            </button>
+            <button class="action-icon-btn delete-btn" title="حذف چت">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</template>
+
+<!-- Message Template -->
+<template id="messageTemplate">
+    <div class="message">
+        <div class="message-content">
+            <div class="message-bubble">
+                <p></p>
+            </div>
+            <div class="message-actions">
+                <button class="message-action-btn copy-btn" onclick="copyMessage(this)" title="کپی کردن پیام">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                    </svg>
+                    کپی
+                </button>
+                <button class="message-action-btn regenerate-btn" onclick="regenerateMessage(this)" title="تولید مجدد">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+                        <path d="M21 3v5h-5"/>
+                        <path d="M3 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+                        <path d="M3 21v-5h5"/>
+                    </svg>
+                    تولید مجدد
+                </button>
+            </div>
+            <div class="message-time"></div>
+        </div>
+    </div>
+</template>
+
+<script>
+// Copy message functionality
+function copyMessage(button) {
+    const messageBubble = button.closest('.message').querySelector('.message-bubble');
+    const messageText = messageBubble.querySelector('p').textContent;
+    
+    navigator.clipboard.writeText(messageText).then(() => {
+        // Visual feedback
+        const originalText = button.innerHTML;
+        button.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 6L9 17l-5-5"/>
+            </svg>
+            کپی شد
+        `;
+        button.style.background = '#10b981';
+        button.style.color = 'white';
+        button.style.borderColor = '#10b981';
+        
+        setTimeout(() => {
+            button.innerHTML = originalText;
+            button.style.background = '';
+            button.style.color = '';
+            button.style.borderColor = '';
+        }, 2000);
+    }).catch(err => {
+        console.error('Failed to copy message:', err);
+    });
+}
+
+// Edit message functionality
+function editMessage(button) {
+    const message = button.closest('.message');
+    const messageBubble = message.querySelector('.message-bubble');
+    const messageText = messageBubble.querySelector('p').textContent;
+    const messageInput = document.getElementById('messageInput');
+    
+    if (messageInput) {
+        messageInput.value = messageText;
+        messageInput.focus();
+        messageInput.setSelectionRange(messageText.length, messageText.length);
+        
+        // Update send button state
+        if (window.pimxchat) {
+            window.pimxchat.handleInputChange();
+        }
+        
+        // Scroll to input
+        messageInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+// Regenerate message functionality
+function regenerateMessage(button) {
+    const message = button.closest('.message');
+    const messageBubble = message.querySelector('.message-bubble');
+    const messageText = messageBubble.querySelector('p').textContent;
+    
+    // Show confirmation toast instead of alert
+    if (window.showToast) {
+        window.showToast('Regenerating message...', 'info');
+    }
+    
+    // Remove the current message
+    message.remove();
+    
+    // Send the same message again
+    if (window.pimxchat) {
+        const messageInput = document.getElementById('messageInput');
+        if (messageInput) {
+            messageInput.value = messageText;
+            window.pimxchat.sendMessage();
+        }
+    }
+}
+
+// Cancel edit functionality
+function cancelEdit() {
+    if (window.pimxchat) {
+        window.pimxchat.cancelEdit();
+    }
+}
+
+// Think Harder functionality
+function showThinkHarder() {
+    const container = document.getElementById('thinkHarderContainer');
+    if (container) {
+        container.style.display = 'block';
+    }
+}
+
+function closeThinkHarder() {
+    const container = document.getElementById('thinkHarderContainer');
+    if (container) {
+        container.style.display = 'none';
+    }
+}
+
+function activateThinkHarder() {
+    // Add a special flag to indicate "think harder" mode
+    if (window.pimxchat) {
+        window.pimxchat.thinkHarderMode = true;
+        closeThinkHarder();
+        
+        // Show toast notification
+        if (window.showToast) {
+            window.showToast('حالت فکر عمیق‌تر فعال شد', 'info');
+        }
+    }
+}
+
+// Auto-scroll to bottom when new messages are added
+function scrollToBottom() {
+    const chatMessages = document.getElementById('chatMessages');
+    if (chatMessages) {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+}
+
+// Call scrollToBottom when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    scrollToBottom();
+    
+    // Also scroll when new messages are added (this will be called by chat.js)
+    window.scrollToBottom = scrollToBottom;
+});
+</script>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/chat.js' %}?v=3"></script>
+{% endblock %} 

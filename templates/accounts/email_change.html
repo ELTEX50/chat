@@ -1,0 +1,16 @@
+{% extends 'accounts/email_base.html' %}
+{% block subject %}تغییر ایمیل حساب کاربری - PIMXCHAT{% endblock %}
+{% block email_content %}
+    <h2 style="color:#8b5cf6;font-size:1.2rem;font-weight:700;margin:0 0 16px 0;">تغییر ایمیل حساب کاربری</h2>
+    <p style="color:#333;font-size:1rem;line-height:1.8;margin:0 0 24px 0;">
+        سلام {{ user.username }} عزیز،<br>
+        شما درخواست تغییر ایمیل حساب کاربری خود در <b>PIMXCHAT</b> را داده‌اید.<br>
+        ایمیل جدید: <b>{{ new_email }}</b>
+    </p>
+    <div style="background:#f3f0fa;border-radius:12px;padding:16px 0;margin:24px 0 16px 0;text-align:center;direction:ltr;">
+        <div style="color:#8b5cf6;font-weight:700;">کد تایید:</div>
+        <div style="color:#3b82f6;font-size:2em;font-weight:bold;letter-spacing:0.2em;margin:8px 0 0 0;">{{ code }}</div>
+    </div>
+    <a href="{{ verify_url }}" style="display:inline-block; background:#8b5cf6; color:#fff; padding:10px 24px; border-radius:6px; text-decoration:none; margin:12px 0;">تایید تغییر ایمیل</a>
+    <p style="color:#ef4444;font-size:0.98rem;margin:16px 0 0 0;">اگر این درخواست توسط شما انجام نشده است، این ایمیل را نادیده بگیرید.</p>
+{% endblock %} 

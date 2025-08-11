@@ -1,0 +1,372 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Change Email Style */
+.change-email-section {
+    min-height: calc(100vh - 200px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 80px 5% 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+.change-email-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-hero);
+    opacity: 0.1;
+    z-index: -1;
+}
+
+.change-email-card {
+    background: rgb(255, 255, 255);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 50px 40px 40px 40px;
+    box-shadow: var(--shadow-card);
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.change-email-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-primary);
+    opacity: 0.05;
+    z-index: -1;
+}
+
+.change-email-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 2.6rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.change-email-description {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.current-email-info {
+    background: rgb(255, 255, 255);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(139, 92, 246, 0.08);
+    text-align: center;
+}
+
+.current-email-label {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.current-email-value {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-label {
+    display: block;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 15px 20px;
+    background: rgb(255, 255, 255);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all var(--transition-medium);
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.form-input::placeholder {
+    color: var(--text-secondary);
+}
+
+.form-help-text {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 5px;
+    display: block;
+}
+
+.form-error {
+    color: #ef4444;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    display: block;
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+}
+
+.btn-primary {
+    background: var(--gradient-button);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    color: white;
+    text-decoration: none;
+}
+
+.btn-secondary {
+    background: rgb(255, 255, 255);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: rgba(17, 17, 17, 0.7);
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.warning-box {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.warning-title {
+    color: #ef4444;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.warning-text {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+    .change-email-card {
+        padding: 30px 15px 20px 15px;
+        max-width: 98vw;
+    }
+    .change-email-title {
+        font-size: 1.8rem;
+    }
+    .form-actions {
+        flex-direction: column;
+    }
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Particle Background -->
+<div class="particle-bg" id="particleBg"></div>
+
+<!-- Change Email Section -->
+<section class="change-email-section">
+    <div class="change-email-card">
+        <h1 class="change-email-title">تغییر ایمیل</h1>
+        
+        <p class="change-email-description">
+            برای تغییر ایمیل خود، ایمیل جدید را وارد کنید. کد تایید به ایمیل جدید شما ارسال خواهد شد.
+        </p>
+        
+        <!-- Current Email Display -->
+        <div class="current-email-info">
+            <span class="current-email-label">ایمیل فعلی شما:</span>
+            <div class="current-email-value">{{ user.email }}</div>
+        </div>
+        
+        <!-- Warning Box -->
+        <div class="warning-box">
+            <div class="warning-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                توجه
+            </div>
+            <div class="warning-text">
+                پس از تغییر ایمیل، برای ورود به سیستم باید از ایمیل جدید استفاده کنید. 
+                همچنین تمام اعلان‌ها به ایمیل جدید ارسال خواهند شد.
+            </div>
+        </div>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <!-- New Email Field -->
+            <div class="form-group">
+                <label for="{{ form.new_email.id_for_label }}" class="form-label">{{ form.new_email.label }}</label>
+                {{ form.new_email }}
+                {% if form.new_email.help_text %}
+                    <span class="form-help-text">{{ form.new_email.help_text }}</span>
+                {% endif %}
+                {% if form.new_email.errors %}
+                    {% for error in form.new_email.errors %}
+                        <span class="form-error">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            
+            <!-- Current Password Field -->
+            <div class="form-group">
+                <label for="{{ form.current_password.id_for_label }}" class="form-label">{{ form.current_password.label }}</label>
+                {{ form.current_password }}
+                {% if form.current_password.help_text %}
+                    <span class="form-help-text">{{ form.current_password.help_text }}</span>
+                {% endif %}
+                {% if form.current_password.errors %}
+                    {% for error in form.current_password.errors %}
+                        <span class="form-error">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                        <polyline points="16,6 12,2 8,6"/>
+                        <line x1="12" y1="2" x2="12" y2="15"/>
+                    </svg>
+                    ارسال کد تایید
+                </button>
+                <a href="{% url 'accounts:profile' %}" class="btn btn-secondary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                    انصراف
+                </a>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script>
+// Add particle background animation
+document.addEventListener('DOMContentLoaded', function() {
+    const particleBg = document.getElementById('particleBg');
+    if (particleBg) {
+        // Create particles
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 3 + 's';
+            particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            particleBg.appendChild(particle);
+        }
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.change-email-card form');
+    if (!form) return;
+    const storageKey = 'vf_change_email_form';
+    // Restore
+    try {
+        const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+        for (const [k, v] of Object.entries(saved)) {
+            const input = form.querySelector(`[name="${k}"]`);
+            if (input && input.type !== 'password' && input.type !== 'file') input.value = v;
+        }
+    } catch {}
+    // Save on input
+    form.addEventListener('input', function(e) {
+        if (!e.target.name || e.target.type === 'password' || e.target.type === 'file') return;
+        const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+        saved[e.target.name] = e.target.value;
+        localStorage.setItem(storageKey, JSON.stringify(saved));
+    });
+    // Clear on submit
+    form.addEventListener('submit', function() {
+        localStorage.removeItem(storageKey);
+    });
+});
+</script>
+{% endblock %} 

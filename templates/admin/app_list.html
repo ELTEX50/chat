@@ -1,0 +1,67 @@
+{% load i18n %}
+
+{% if app_list %}
+  {% for app in app_list %}
+    <div class="admin-card">
+      <div class="card-header">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"/>
+            <rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/>
+          </svg>
+        </div>
+        <h3 class="card-title">{{ app.name }}</h3>
+      </div>
+      
+      {% for model in app.models %}
+        <div class="admin-item">
+          <div class="admin-info">
+            <div class="admin-label">{{ model.name }}</div>
+            <div class="admin-description-text">{{ model.object_name }}</div>
+          </div>
+          <div class="admin-control">
+            {% if model.admin_url %}
+              <a href="{{ model.admin_url }}" class="admin-btn">
+                <span>مشاهده</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 18l6-6-6-6"/>
+                </svg>
+              </a>
+            {% endif %}
+            {% if model.add_url %}
+              <a href="{{ model.add_url }}" class="admin-btn">
+                <span>افزودن</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
+{% else %}
+  <div class="admin-card">
+    <div class="card-header">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M16 16s-1.5-1.5-4-1.5-4 1.5-4 1.5"/>
+          <line x1="9" y1="9" x2="9.01" y2="9"/>
+          <line x1="15" y1="9" x2="15.01" y2="9"/>
+        </svg>
+      </div>
+      <h3 class="card-title">هیچ برنامه‌ای یافت نشد</h3>
+    </div>
+    
+    <div class="admin-item">
+      <div class="admin-info">
+        <div class="admin-label">هیچ برنامه‌ای برای نمایش وجود ندارد</div>
+        <div class="admin-description-text">لطفاً مطمئن شوید که برنامه‌ها به درستی ثبت شده‌اند</div>
+      </div>
+    </div>
+  </div>
+{% endif %} 

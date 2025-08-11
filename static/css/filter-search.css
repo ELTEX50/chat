@@ -1,0 +1,337 @@
+/* Filter and Search Box Component - Based on user_ratings design */
+
+/* Filter Form Container */
+.filter-form-container[object Object]  background: rgba(255255 0.3);
+    border: 1px solid rgba(139, 920.15
+    border-radius: 1rem;
+    padding: 1.5
+    margin-bottom: 2rem;
+    box-shadow: 0 4x 24x rgba(60, 600.08   backdrop-filter: blur(10px);
+}
+
+.filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+/* Form Controls */
+.form-control[object Object]
+    padding:0.75m 1rem;
+    border: 1px solid rgba(13992, 0.2);
+    border-radius: 0.75rem;
+    background: rgba(10100, 0.6
+    color: var(--text-primary, #ffffff);
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+    min-width: 120px;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--neon-purple, #8b5cf6);
+    box-shadow: 0 00 3 rgba(139921);
+    background: rgba(101010;
+}
+
+.form-control::placeholder {
+    color: var(--text-secondary, #a1a1
+}
+
+/* Select Dropdowns */
+.form-control[type="select"],
+.form-control select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3csvg xmlns=http://www.w3.org/2000 fill=noneviewBox='0 0%3e%3cpath stroke=%236b7280 stroke-linecap='round' stroke-linejoin='round stroke-width=1.5d=m696 6 6/%3e%3c/svg%3e);
+    background-position: right 0.5er;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5
+    padding-right: 2.5}
+
+/* Search Input */
+.search-input[object Object]    min-width: 180position: relative;
+}
+
+.search-input .form-control [object Object]
+    padding-left: 2.5rem;
+    background-image: url("data:image/svg+xml,%3csvg xmlns=http://www.w3.org/2000 fill=noneviewBox=0 0424 stroke=%236b7280%3e%3ccircle cx=11 cy='11r=8/%3e%3cpath d=m21 21-40.35-40.35/%3e%3c/svg%3e);
+    background-position: left 00.75er;
+    background-repeat: no-repeat;
+    background-size: 1251.25
+}
+
+/* Buttons */
+.btn[object Object]
+    padding: 00.7510.5;
+    border: none;
+    border-radius:0.75m;
+    font-family: inherit;
+    font-size:0.95m;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+}
+
+.btn-primary[object Object]   background: var(--gradient-primary, linear-gradient(135deg, #8b5cf60, #3b82650, #ec4899 100;
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12 rgba(13992246
+}
+
+.btn-secondary[object Object]  background: rgba(139926, 0.1
+    color: var(--text-primary, #ffffff);
+    border: 1px solid rgba(13992246
+}
+
+.btn-secondary:hover[object Object]  background: rgba(13992, 0.2);
+    border-color: rgba(13992246
+
+.btn-destructive[object Object]  background: rgba(239688, 01
+    color: #ef4444 border: 1px solid rgba(2396868
+
+.btn-destructive:hover[object Object]  background: rgba(23968, 0.2);
+    border-color: rgba(239680.5
+/* Filter Section with Title */
+.filter-section {
+    margin-bottom: 2rem;
+}
+
+.filter-section-title [object Object]
+    font-size: 1.5rem;
+    font-weight: 70
+    color: var(--text-primary, #ffffff);
+    margin-bottom: 1.2rem;
+    text-align: center;
+}
+
+/* Advanced Filter Options */
+.filter-advanced {
+    display: none;
+    margin-top:1m;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(13992,0.1
+
+.filter-advanced.show {
+    display: block;
+}
+
+.toggle-advanced-btn[object Object]  background: none;
+    border: none;
+    color: var(--neon-purple, #8b5cf6);
+    font-size: 00.9   cursor: pointer;
+    padding: 0.5
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    margin-top: 00.5
+
+.toggle-advanced-btn:hover[object Object]  background: rgba(13992, 246, 0.1
+
+/* Filter Groups */
+.filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.filter-group-label [object Object]
+    font-weight: 50
+    color: var(--text-primary, #ffffff);
+    min-width:100;
+}
+
+/* Date Range Filters */
+.date-range-filters {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.date-input[object Object]    min-width: 140
+}
+
+/* Status/Type Filters with Icons */
+.status-filter {
+    position: relative;
+}
+
+.status-filter .form-control [object Object]
+    padding-left: 2.5
+}
+
+.status-filter::before {
+    content:position: absolute;
+    left:00.75em;
+    top: 50ansform: translateY(-50);
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.6;
+}
+
+.status-active::before { background: #10b981; }
+.status-inactive::before[object Object]background: #6b7280; }
+.status-pending::before [object Object] background: #f59
+.status-suspended::before[object Object]background: #ef4444
+/* Rating Filters with Emojis */
+.rating-filter .form-control [object Object]
+    padding-left: 2.5rem;
+    background-image: none;
+}
+
+.rating-filter::before [object Object]   content: 😐';
+    position: absolute;
+    left:00.75em;
+    top: 50ansform: translateY(-50%);
+    font-size: 10.2em;
+}
+
+.rating-1::before { content:😡'; }
+.rating-2::before { content:😞'; }
+.rating-3::before { content:😐'; }
+.rating-4::before { content:🙂'; }
+.rating-5::before { content: '😍'; }
+
+/* Responsive Design */
+@media (max-width: 768[object Object]   .filter-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .form-control {
+        min-width: auto;
+        width:100;
+    }
+    
+    .filter-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .date-range-filters {
+        flex-direction: column;
+    }
+    
+    .filter-section-title {
+        font-size: 10.2em;
+    }
+    
+    .filter-form-container [object Object]
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480[object Object]   .filter-form[object Object]
+        gap: 0.75em;
+    }
+    
+    .form-control [object Object]
+        padding: 0.6rem 0.8
+        font-size: 00.9em;
+    }
+    
+    .btn [object Object]
+        padding: 0.6rem 1.2
+        font-size:00.9;
+    }
+}
+
+/* Dark Mode Enhancements */
+@media (prefers-color-scheme: dark) {
+    .form-control {
+        background: rgba(0, 0, 0, 0.8      border-color: rgba(1399224603;
+    }
+    
+    .form-control:focus {
+        background: rgba(0009;
+    }
+    
+    .filter-form-container {
+        background: rgba(0, 0, 0, 0.4      border-color: rgba(139922460.2 }
+}
+
+/* Animation for filter changes */
+.filter-form-container {
+    animation: slideInUp 00.3 ease-out;
+}
+
+@keyframes slideInUp {
+    from [object Object]
+        opacity: 0;
+        transform: translateY(20);
+    }
+    to [object Object]
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading state for filters */
+.filter-form.loading [object Object]    opacity: 0.6    pointer-events: none;
+}
+
+.filter-form.loading::after {
+    content:position: absolute;
+    top:50%;
+    left: 50%;
+    width: 20px;
+    height:20x;
+    margin:-10 -10x;
+    border: 2px solid rgba(13992, 0.3  border-top-color: var(--neon-purple, #8b5cf6);
+    border-radius: 50   animation: spin 1 linear infinite;
+}
+
+@keyframes spin {
+ 0 transform: rotate(0deg); }
+   100 transform: rotate(360
+}
+
+/* RTL Support */
+[dir="rtl"] .form-control[type="select"],
+[dir="rtl"] .form-control select {
+    background-position: left 0.5enter;
+    padding-left: 20.5
+    padding-right: 1em;
+}
+
+[dir="rtl] .search-input .form-control {
+    padding-right: 20.5;
+    padding-left: 1rem;
+    background-position: right 0.75em center;
+}
+
+[dir="rtl"] .status-filter .form-control {
+    padding-right: 20.5;
+    padding-left: 1em;
+}
+
+[dir="rtl"] .status-filter::before[object Object]
+    right:0.75em;
+    left: auto;
+}
+
+[dir="rtl"] .rating-filter .form-control {
+    padding-right: 20.5;
+    padding-left: 1em;
+}
+
+[dir="rtl"] .rating-filter::before[object Object]
+    right:0.75em;
+    left: auto;
+} 

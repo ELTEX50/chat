@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}درباره ما - PIMXCHAT{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<!-- Particle Background -->
+<div class="particle-bg" id="particleBg"></div>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-content">
+        <div class="logo-container">
+            <div class="logo-glow"></div>
+            <h1 class="hero-title">درباره PIMXCHAT</h1>
+            <div class="logo-subtitle">داستان ما، ماموریت ما، و آینده هوش مصنوعی</div>
+        </div>
+        
+        <div class="hero-description">
+            <p>PIMXCHAT یک پروژه نوآورانه است که با هدف democratizing هوش مصنوعی و ارائه تجربه‌ای منحصر به فرد در گفتگو با AI ایجاد شده است.</p>
+            <p>ما معتقدیم که هوش مصنوعی باید برای همه قابل دسترس باشد و تجربه‌ای طبیعی و مفید ارائه دهد.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Mission & Vision Section -->
+<section class="mission-section">
+    <div class="container">
+        <div class="mission-grid">
+            <div class="mission-card">
+                <div class="mission-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <h3>ماموریت ما</h3>
+                <p>ایجاد دسترسی آسان و امن به هوش مصنوعی پیشرفته برای همه افراد، با تمرکز بر تجربه‌ای طبیعی و مفید که زندگی روزمره را بهبود می‌بخشد.</p>
+            </div>
+            
+            <div class="mission-card">
+                <div class="mission-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 12l2 2 4-4"/>
+                        <path d="M21 12c-1 0-2-1-2-2s1-2 2-2 2 1 2 2-1 2-2 2z"/>
+                        <path d="M3 12c1 0 2-1 2-2s-1-2-2-2-2 1-2 2 1 2 2 2z"/>
+                        <path d="M12 3c0 1-1 2-2 2s-2-1-2-2 1-2 2-2 2 1 2 2z"/>
+                        <path d="M12 21c0-1 1-2 2-2s2 1 2 2-1 2-2 2-2-1-2-2z"/>
+                    </svg>
+                </div>
+                <h3>چشم‌انداز ما</h3>
+                <p>تبدیل شدن به پیشگام در حوزه هوش مصنوعی گفتگویی و ایجاد پل ارتباطی بین انسان و ماشین با استفاده از تکنولوژی‌های نوین.</p>
+            </div>
+            
+            <div class="mission-card">
+                <div class="mission-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M22 12h-6l-2-2h-2v-2h2l2 2h6"/>
+                    </svg>
+                </div>
+                <h3>ارزش‌های ما</h3>
+                <p>حریم خصوصی، امنیت، نوآوری مداوم، و تجربه کاربری عالی در قلب تمام تصمیمات و محصولات ما قرار دارد.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Story Section -->
+<section class="story-section">
+    <div class="container">
+        <h2 class="section-title">داستان ما</h2>
+        <div class="story-content">
+            <div class="story-text">
+                <p>PIMXCHAT در سال 2024 توسط محمدرضا عابدین‌پور با هدف ایجاد یک دستیار هوش مصنوعی پیشرفته و کاربرپسند آغاز شد. این پروژه از نیاز به یک ابزار هوشمند که بتواند به سوالات، کمک‌های فنی، و گفتگوهای روزمره پاسخ دهد، متولد شد.</p>
+                <p>ما با استفاده از آخرین تکنولوژی‌های هوش مصنوعی، به ویژه مدل Gemini گوگل، سیستمی ایجاد کردیم که نه تنها پاسخ‌های دقیق ارائه می‌دهد، بلکه تجربه‌ای طبیعی و انسانی را فراهم می‌کند.</p>
+                <p>امروز، PIMXCHAT به عنوان یکی از پیشگامان در حوزه هوش مصنوعی گفتگویی شناخته می‌شود و به هزاران کاربر در سراسر جهان خدمت می‌کند.</p>
+            </div>
+            <div class="story-stats">
+                <div class="stat-item">
+                    <div class="stat-number">2024</div>
+                    <div class="stat-label">سال تاسیس</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">کاربر فعال</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50K+</div>
+                    <div class="stat-label">پیام پردازش شده</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Technology Section -->
+<section class="tech-section">
+    <div class="container">
+        <h2 class="section-title">تکنولوژی ما</h2>
+        <div class="tech-grid">
+            <div class="tech-card">
+                <div class="tech-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                </div>
+                <h3>Gemini AI</h3>
+                <p>استفاده از پیشرفته‌ترین مدل هوش مصنوعی گوگل برای پردازش طبیعی زبان و تولید پاسخ‌های هوشمند</p>
+            </div>
+            
+            <div class="tech-card">
+                <div class="tech-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
+                <h3>امنیت پیشرفته</h3>
+                <p>رمزگذاری end-to-end و محافظت کامل از حریم خصوصی کاربران با استفاده از استانداردهای امنیتی بالا</p>
+            </div>
+            
+            <div class="tech-card">
+                <div class="tech-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <h3>یادگیری مداوم</h3>
+                <p>سیستم‌های یادگیری ماشین که به طور مداوم از تعاملات یاد می‌گیرند و بهبود می‌یابند</p>
+            </div>
+            
+            <div class="tech-card">
+                <div class="tech-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </div>
+                <h3>رابط کاربری مدرن</h3>
+                <p>طراحی واکنش‌گرا و انیمیشن‌های پیشرفته برای تجربه‌ای منحصر به فرد</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="team-section">
+    <div class="container">
+        <h2 class="section-title">تیم ما</h2>
+        <div class="team-content">
+            <div class="founder-card">
+                <div class="founder-avatar">
+                    <div class="avatar-glow"></div>
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                    </svg>
+                </div>
+                <h3>محمدرضا عابدین‌پور</h3>
+                <p class="founder-title">بنیان‌گذار و توسعه‌دهنده ارشد</p>
+                <p class="founder-bio">متخصص در حوزه هوش مصنوعی و یادگیری ماشین با بیش از 5 سال تجربه در توسعه سیستم‌های هوشمند. علاقه‌مند به democratizing تکنولوژی و ایجاد ابزارهایی که زندگی مردم را بهبود می‌بخشد.</p>
+            </div>
+            
+            <div class="team-values">
+                <div class="value-item">
+                    <h4>نوآوری</h4>
+                    <p>همیشه در جستجوی راه‌های جدید برای بهبود تجربه کاربری</p>
+                </div>
+                <div class="value-item">
+                    <h4>کیفیت</h4>
+                    <p>تعهد به ارائه بهترین کیفیت در تمام جنبه‌های محصول</p>
+                </div>
+                <div class="value-item">
+                    <h4>شفافیت</h4>
+                    <p>شفافیت کامل در مورد نحوه کارکرد سیستم و استفاده از داده‌ها</p>
+                </div>
+                <div class="value-item">
+                    <h4>جامعه</h4>
+                    <p>ایجاد جامعه‌ای از کاربران که با هم یاد می‌گیرند و رشد می‌کنند</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/about.js' %}"></script>
+{% endblock %} 
+ 

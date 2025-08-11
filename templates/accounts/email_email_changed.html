@@ -1,0 +1,11 @@
+{% extends 'accounts/email_base.html' %}
+{% block subject %}تغییر ایمیل حساب کاربری - PIMXCHAT{% endblock %}
+{% block email_content %}
+    <h2 style="color:#8b5cf6;font-size:1.2rem;font-weight:700;margin:0 0 16px 0;">تغییر ایمیل حساب کاربری</h2>
+    <p style="color:#333;font-size:1rem;line-height:1.8;margin:0 0 24px 0;">
+        سلام {{ user.username }} عزیز،<br>
+        ایمیل حساب کاربری شما در <b>PIMXCHAT</b> با موفقیت تغییر یافت.<br>
+        ایمیل جدید شما: <b>{{ new_email }}</b>
+    </p>
+    <p style="color:#ef4444;font-size:0.98rem;margin:16px 0 0 0;">اگر این تغییر توسط شما انجام نشده است، لطفاً فوراً با پشتیبانی تماس بگیرید.</p>
+{% endblock %} 

@@ -1,0 +1,348 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد - PIMXCHAT</title>
+    <meta name="description" content="داشبورد تحلیلی و آمار PIMXCHAT">
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1 class="page-title">داشبورد</h1>
+                    <p class="page-subtitle">مروری بر فعالیت‌ها و آمار شما</p>
+                </div>
+                <div class="header-right">
+                    <div class="date-picker">
+                        <select id="dateRange">
+                            <option value="7">7 روز گذشته</option>
+                            <option value="30" selected>30 روز گذشته</option>
+                            <option value="90">90 روز گذشته</option>
+                            <option value="365">سال گذشته</option>
+                        </select>
+                    </div>
+                    <a href="index.html" class="btn btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        شروع چت جدید
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Quick Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon primary">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="totalChats">1,247</div>
+                        <div class="stat-label">کل چت‌ها</div>
+                        <div class="stat-change positive">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="18,15 12,9 6,15"/>
+                            </svg>
+                            +12.5%
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon success">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="avgRating">4.8</div>
+                        <div class="stat-label">میانگین امتیاز</div>
+                        <div class="stat-change positive">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="18,15 12,9 6,15"/>
+                            </svg>
+                            +0.2
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon warning">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="totalTokens">15.2K</div>
+                        <div class="stat-label">توکن استفاده شده</div>
+                        <div class="stat-change negative">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6,9 12,15 18,9"/>
+                            </svg>
+                            -5.3%
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon info">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="activeDays">28</div>
+                        <div class="stat-label">روز فعال</div>
+                        <div class="stat-change positive">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="18,15 12,9 6,15"/>
+                            </svg>
+                            +3
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>فعالیت چت در طول زمان</h3>
+                        <div class="chart-controls">
+                            <button class="chart-btn active" data-period="week">هفته</button>
+                            <button class="chart-btn" data-period="month">ماه</button>
+                            <button class="chart-btn" data-period="year">سال</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chatActivityChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>توزیع موضوعات چت</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="topicsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Insights and Activity -->
+            <div class="insights-section">
+                <div class="insights-card">
+                    <div class="card-header">
+                        <h3>بینش‌های هوشمند</h3>
+                        <button class="refresh-btn" id="refreshInsights">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="insights-list" id="insightsList">
+                        <div class="insight-item positive">
+                            <div class="insight-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                            </div>
+                            <div class="insight-content">
+                                <div class="insight-title">بهبود عملکرد</div>
+                                <div class="insight-description">سرعت پاسخ‌دهی شما 15% بهبود یافته است</div>
+                            </div>
+                        </div>
+
+                        <div class="insight-item info">
+                            <div class="insight-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                </svg>
+                            </div>
+                            <div class="insight-content">
+                                <div class="insight-title">پیشنهاد امنیتی</div>
+                                <div class="insight-description">فعال‌سازی احراز هویت دو مرحله‌ای توصیه می‌شود</div>
+                            </div>
+                        </div>
+
+                        <div class="insight-item warning">
+                            <div class="insight-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                                    <line x1="12" y1="9" x2="12" y2="13"/>
+                                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                                </svg>
+                            </div>
+                            <div class="insight-content">
+                                <div class="insight-title">هشدار مصرف</div>
+                                <div class="insight-description">مصرف توکن شما 20% بیشتر از ماه گذشته است</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="activity-card">
+                    <div class="card-header">
+                        <h3>فعالیت‌های اخیر</h3>
+                        <a href="#" class="view-all-link">مشاهده همه</a>
+                    </div>
+                    <div class="activity-timeline" id="activityTimeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker chat"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">چت جدید با موضوع "برنامه‌نویسی"</div>
+                                <div class="timeline-time">2 ساعت پیش</div>
+                                <div class="timeline-details">45 پیام تبادل شده</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker rating"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">امتیازدهی به چت</div>
+                                <div class="timeline-time">4 ساعت پیش</div>
+                                <div class="timeline-details">امتیاز: 5 ستاره</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker settings"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">تغییر تنظیمات پروفایل</div>
+                                <div class="timeline-time">1 روز پیش</div>
+                                <div class="timeline-details">به‌روزرسانی اطلاعات شخصی</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker export"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">خروجی گرفتن از چت</div>
+                                <div class="timeline-time">2 روز پیش</div>
+                                <div class="timeline-details">فایل PDF دانلود شد</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Metrics -->
+            <div class="metrics-section">
+                <div class="metrics-card">
+                    <div class="card-header">
+                        <h3>معیارهای عملکرد</h3>
+                    </div>
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <div class="metric-label">میانگین طول چت</div>
+                            <div class="metric-value">23 پیام</div>
+                            <div class="metric-progress">
+                                <div class="progress-bar" style="width: 75%"></div>
+                            </div>
+                        </div>
+
+                        <div class="metric-item">
+                            <div class="metric-label">زمان پاسخ‌دهی</div>
+                            <div class="metric-value">2.3 ثانیه</div>
+                            <div class="metric-progress">
+                                <div class="progress-bar" style="width: 90%"></div>
+                            </div>
+                        </div>
+
+                        <div class="metric-item">
+                            <div class="metric-label">رضایت کاربر</div>
+                            <div class="metric-value">96%</div>
+                            <div class="metric-progress">
+                                <div class="progress-bar" style="width: 96%"></div>
+                            </div>
+                        </div>
+
+                        <div class="metric-item">
+                            <div class="metric-label">نرخ تکمیل چت</div>
+                            <div class="metric-value">89%</div>
+                            <div class="metric-progress">
+                                <div class="progress-bar" style="width: 89%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="goals-card">
+                    <div class="card-header">
+                        <h3>اهداف و دستاوردها</h3>
+                    </div>
+                    <div class="goals-list">
+                        <div class="goal-item completed">
+                            <div class="goal-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20,6 9,17 4,12"/>
+                                </svg>
+                            </div>
+                            <div class="goal-content">
+                                <div class="goal-title">1000 چت تکمیل شده</div>
+                                <div class="goal-progress">100% تکمیل</div>
+                            </div>
+                        </div>
+
+                        <div class="goal-item in-progress">
+                            <div class="goal-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12,6 12,12 16,14"/>
+                                </svg>
+                            </div>
+                            <div class="goal-content">
+                                <div class="goal-title">امتیاز 5 ستاره</div>
+                                <div class="goal-progress">80% تکمیل</div>
+                            </div>
+                        </div>
+
+                        <div class="goal-item pending">
+                            <div class="goal-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12,6 12,12 16,14"/>
+                                </svg>
+                            </div>
+                            <div class="goal-content">
+                                <div class="goal-title">30 روز متوالی استفاده</div>
+                                <div class="goal-progress">28/30 روز</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <select id="languageSelect">
+            <option value="fa">فارسی</option>
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+            <option value="it">Italiano</option>
+            <option value="es">Español</option>
+            <option value="de">Deutsch</option>
+            <option value="ko">한국어</option>
+            <option value="ja">日本語</option>
+            <option value="he">עברית</option>
+            <option value="ar">العربية</option>
+        </select>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html> 

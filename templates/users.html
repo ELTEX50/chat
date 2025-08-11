@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدیریت کاربران - PIMXCHAT</title>
+    <link rel="stylesheet" href="users.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="users-container">
+        <!-- Header -->
+        <header class="users-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1 class="page-title">مدیریت کاربران</h1>
+                    <p class="page-subtitle">مدیریت کاربران، نقش‌ها و دسترسی‌ها</p>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary" onclick="showAddUserModal()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        افزودن کاربر
+                    </button>
+                    <button class="btn btn-secondary" onclick="window.location.href='index.html'">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 12H5M12 19l-7-7 7-7"/>
+                        </svg>
+                        بازگشت
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Search and Filters -->
+        <section class="search-section">
+            <div class="search-container">
+                <form id="filterForm" class="mb-3" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: flex-start; width: 100%;">
+                    <select name="sort" id="sortBy" class="form-control" style="min-width: 120px;">
+                        <option value="name">مرتب بر اساس نام</option>
+                        <option value="email">مرتب بر اساس ایمیل</option>
+                        <option value="role">مرتب بر اساس نقش</option>
+                        <option value="status">مرتب بر اساس وضعیت</option>
+                        <option value="lastActive">مرتب بر اساس آخرین فعالیت</option>
+                        <option value="createdAt">مرتب بر اساس تاریخ عضویت</option>
+                    </select>
+                    <select name="role" id="roleFilter" class="form-control" style="min-width: 120px;">
+                        <option value="all">تمام نقش‌ها</option>
+                        <option value="admin">مدیر</option>
+                        <option value="moderator">ناظر</option>
+                        <option value="user">کاربر</option>
+                        <option value="guest">مهمان</option>
+                    </select>
+                    <select name="status" id="statusFilter" class="form-control" style="min-width: 120px;">
+                        <option value="all">تمام وضعیت‌ها</option>
+                        <option value="active">فعال</option>
+                        <option value="inactive">غیرفعال</option>
+                        <option value="suspended">معلق</option>
+                        <option value="pending">در انتظار</option>
+                    </select>
+                    <input type="text" name="search" id="searchInput" class="form-control" placeholder="جستجو در کاربران..." style="min-width: 180px;">
+                    <button type="button" id="resetBtn" class="btn btn-secondary">ریست</button>
+                </form>
+            </div>
+        </section>
+        <!-- End Search and Filters -->
+        <!-- Main Content -->
+        <main class="users-main">
+            <!-- Stats Overview -->
+            <section class="stats-overview">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h3>کل کاربران</h3>
+                            <p class="stat-number">1,247</p>
+                            <span class="stat-change positive">+12% از ماه گذشته</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22,4 12,14.01 9,11.01"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h3>کاربران فعال</h3>
+                            <p class="stat-number">892</p>
+                            <span class="stat-change positive">+8% از ماه گذشته</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h3>کاربران جدید</h3>
+                            <p class="stat-number">156</p>
+                            <span class="stat-change positive">+23% از ماه گذشته</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                                <line x1="12" y1="9" x2="12" y2="13"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h3>کاربران معلق</h3>
+                            <p class="stat-number">23</p>
+                            <span class="stat-change negative">-5% از ماه گذشته</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Users Table -->
+            <section class="users-table-section">
+                <div class="table-header">
+                    <div class="table-info">
+                        <h2>لیست کاربران</h2>
+                        <p id="tableSummary">نمایش 1-20 از 1,247 کاربر</p>
+                    </div>
+                    <div class="table-actions">
+                        <button class="btn btn-secondary" onclick="exportUsers()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7,10 12,15 17,10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            خروجی
+                        </button>
+                        <button class="btn btn-secondary" onclick="bulkAction()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            </svg>
+                            عملیات گروهی
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                </th>
+                                <th>کاربر</th>
+                                <th>ایمیل</th>
+                                <th>نقش</th>
+                                <th>وضعیت</th>
+                                <th>آخرین فعالیت</th>
+                                <th>تاریخ عضویت</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <!-- User rows will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <button class="pagination-btn" onclick="changePage('prev')" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15,18 9,12 15,6"/>
+                        </svg>
+                        قبلی
+                    </button>
+                    
+                    <div class="page-numbers">
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <span class="page-dots">...</span>
+                        <button class="page-btn">63</button>
+                    </div>
+                    
+                    <button class="pagination-btn" onclick="changePage('next')">
+                        بعدی
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9,18 15,12 9,6"/>
+                        </svg>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Roles Management -->
+            <section class="roles-section">
+                <div class="section-header">
+                    <h2>مدیریت نقش‌ها</h2>
+                    <button class="btn btn-primary" onclick="showAddRoleModal()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        افزودن نقش
+                    </button>
+                </div>
+
+                <div class="roles-grid">
+                    <div class="role-card">
+                        <div class="role-header">
+                            <div class="role-icon admin">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                </svg>
+                            </div>
+                            <div class="role-info">
+                                <h3>مدیر</h3>
+                                <p>دسترسی کامل به تمام بخش‌ها</p>
+                            </div>
+                            <div class="role-count">5 کاربر</div>
+                        </div>
+                        <div class="role-permissions">
+                            <span class="permission-tag">مدیریت کاربران</span>
+                            <span class="permission-tag">تنظیمات سیستم</span>
+                            <span class="permission-tag">گزارش‌ها</span>
+                            <span class="permission-tag">پشتیبان‌گیری</span>
+                        </div>
+                        <div class="role-actions">
+                            <button class="btn btn-secondary" onclick="editRole('admin')">ویرایش</button>
+                            <button class="btn btn-destructive" onclick="deleteRole('admin')">حذف</button>
+                        </div>
+                    </div>
+
+                    <div class="role-card">
+                        <div class="role-header">
+                            <div class="role-icon moderator">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                </svg>
+                            </div>
+                            <div class="role-info">
+                                <h3>ناظر</h3>
+                                <p>مدیریت محتوا و نظارت بر کاربران</p>
+                            </div>
+                            <div class="role-count">12 کاربر</div>
+                        </div>
+                        <div class="role-permissions">
+                            <span class="permission-tag">مدیریت محتوا</span>
+                            <span class="permission-tag">نظارت کاربران</span>
+                            <span class="permission-tag">گزارش‌ها</span>
+                        </div>
+                        <div class="role-actions">
+                            <button class="btn btn-secondary" onclick="editRole('moderator')">ویرایش</button>
+                            <button class="btn btn-destructive" onclick="deleteRole('moderator')">حذف</button>
+                        </div>
+                    </div>
+
+                    <div class="role-card">
+                        <div class="role-header">
+                            <div class="role-icon user">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                            </div>
+                            <div class="role-info">
+                                <h3>کاربر</h3>
+                                <p>دسترسی عادی به امکانات اصلی</p>
+                            </div>
+                            <div class="role-count">1,180 کاربر</div>
+                        </div>
+                        <div class="role-permissions">
+                            <span class="permission-tag">چت</span>
+                            <span class="permission-tag">تنظیمات شخصی</span>
+                            <span class="permission-tag">تاریخچه</span>
+                        </div>
+                        <div class="role-actions">
+                            <button class="btn btn-secondary" onclick="editRole('user')">ویرایش</button>
+                            <button class="btn btn-destructive" onclick="deleteRole('user')">حذف</button>
+                        </div>
+                    </div>
+
+                    <div class="role-card">
+                        <div class="role-header">
+                            <div class="role-icon guest">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                    <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                </svg>
+                            </div>
+                            <div class="role-info">
+                                <h3>مهمان</h3>
+                                <p>دسترسی محدود به امکانات پایه</p>
+                            </div>
+                            <div class="role-count">50 کاربر</div>
+                        </div>
+                        <div class="role-permissions">
+                            <span class="permission-tag">چت محدود</span>
+                            <span class="permission-tag">مشاهده</span>
+                        </div>
+                        <div class="role-actions">
+                            <button class="btn btn-secondary" onclick="editRole('guest')">ویرایش</button>
+                            <button class="btn btn-destructive" onclick="deleteRole('guest')">حذف</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Language Selector -->
+        <div class="language-selector">
+            <select id="languageSelect" onchange="changeLanguage()">
+                <option value="fa">فارسی</option>
+                <option value="en">English</option>
+                <option value="ar">العربية</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal" id="addUserModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>افزودن کاربر جدید</h3>
+                <button class="modal-close" onclick="hideAddUserModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form class="user-form" id="addUserForm">
+                    <div class="form-group">
+                        <label>نام و نام خانوادگی:</label>
+                        <input type="text" id="userName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>ایمیل:</label>
+                        <input type="email" id="userEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>رمز عبور:</label>
+                        <input type="password" id="userPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label>نقش:</label>
+                        <select id="userRole" required>
+                            <option value="user">کاربر</option>
+                            <option value="moderator">ناظر</option>
+                            <option value="admin">مدیر</option>
+                            <option value="guest">مهمان</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>وضعیت:</label>
+                        <select id="userStatus" required>
+                            <option value="active">فعال</option>
+                            <option value="inactive">غیرفعال</option>
+                            <option value="pending">در انتظار</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="sendWelcomeEmail" checked>
+                            ارسال ایمیل خوش‌آمدگویی
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="hideAddUserModal()">لغو</button>
+                <button class="btn btn-primary" onclick="addUser()">افزودن کاربر</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div class="modal" id="editUserModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>ویرایش کاربر</h3>
+                <button class="modal-close" onclick="hideEditUserModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form class="user-form" id="editUserForm">
+                    <div class="form-group">
+                        <label>نام و نام خانوادگی:</label>
+                        <input type="text" id="editUserName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>ایمیل:</label>
+                        <input type="email" id="editUserEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>نقش:</label>
+                        <select id="editUserRole" required>
+                            <option value="user">کاربر</option>
+                            <option value="moderator">ناظر</option>
+                            <option value="admin">مدیر</option>
+                            <option value="guest">مهمان</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>وضعیت:</label>
+                        <select id="editUserStatus" required>
+                            <option value="active">فعال</option>
+                            <option value="inactive">غیرفعال</option>
+                            <option value="suspended">معلق</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>دلیل تغییر وضعیت:</label>
+                        <textarea id="editUserReason" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="hideEditUserModal()">لغو</button>
+                <button class="btn btn-primary" onclick="saveUserChanges()">ذخیره تغییرات</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Role Modal -->
+    <div class="modal" id="addRoleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>افزودن نقش جدید</h3>
+                <button class="modal-close" onclick="hideAddRoleModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form class="role-form" id="addRoleForm">
+                    <div class="form-group">
+                        <label>نام نقش:</label>
+                        <input type="text" id="roleName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>توضیحات:</label>
+                        <textarea id="roleDescription" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>دسترسی‌ها:</label>
+                        <div class="permissions-list">
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="manage_users"> مدیریت کاربران
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="manage_content"> مدیریت محتوا
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="view_reports"> مشاهده گزارش‌ها
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="system_settings"> تنظیمات سیستم
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="backup_restore"> پشتیبان‌گیری
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="hideAddRoleModal()">لغو</button>
+                <button class="btn btn-primary" onclick="addRole()">افزودن نقش</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>تأیید حذف</h3>
+                <button class="modal-close" onclick="hideDeleteModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p id="deleteMessage">آیا مطمئن هستید که می‌خواهید این مورد را حذف کنید؟</p>
+                <div class="warning-text">این عملیات قابل بازگشت نیست.</div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="hideDeleteModal()">لغو</button>
+                <button class="btn btn-destructive" onclick="confirmDelete()">حذف</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="users.js"></script>
+</body>
+</html> 

@@ -1,0 +1,545 @@
+{% extends 'admin/base_site.html' %}
+{% load static %}
+
+{% block title %}لیست امتیازهای کاربران{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<style>
+/* Override parent container restrictions */
+.admin-section {
+    overflow-x: visible !important;
+}
+.admin-form-container {
+    overflow: visible !important;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: scroll !important; /* Force horizontal scrollbar to always appear */
+    -webkit-overflow-scrolling: touch;
+}
+/* Custom scrollbar for WebKit browsers */
+.table-responsive::-webkit-scrollbar {
+    height: 10px;
+    background: #eee;
+}
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #b3a4e0;
+    border-radius: 5px;
+}
+
+/* Bootstrap-style Filter and Search Styles */
+.filter-container {
+    background: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    position: relative;
+}
+
+.filter-container:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-color: #adb5bd;
+}
+
+
+
+.filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.filter-group {
+    position: relative;
+    min-width: 140px;
+}
+
+.filter-group label {
+    display: block;
+    font-size: 0.875rem;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.filter-select {
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    background: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    color: #495057;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 400;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+.filter-select:hover {
+    border-color: #adb5bd;
+}
+
+.filter-select:focus {
+    outline: 0;
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.filter-select option {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    padding: 0.5rem;
+}
+
+.search-group {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.375rem 0.75rem 0.375rem 2.5rem;
+    background: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    color: #495057;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 400;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.search-input::placeholder {
+    color: #6c757d;
+    opacity: 1;
+}
+
+.search-input:hover {
+    border-color: #adb5bd;
+}
+
+.search-input:focus {
+    outline: 0;
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+    font-size: 1rem;
+    z-index: 2;
+}
+
+.reset-button {
+    padding: 0.375rem 0.75rem;
+    background: #6c757d;
+    border: 1px solid #6c757d;
+    border-radius: 0.375rem;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    text-transform: none;
+    letter-spacing: normal;
+    min-width: auto;
+}
+
+.reset-button:hover {
+    background: #5c636a;
+    border-color: #565e64;
+}
+
+.reset-button:focus {
+    background: #5c636a;
+    border-color: #565e64;
+    box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.5);
+}
+
+.reset-button:active {
+    background: #565e64;
+    border-color: #51585e;
+}
+
+.reset-button:active {
+    transform: translateY(-1px);
+    box-shadow: 
+        0 6px 20px rgba(139, 92, 246, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.filter-status {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    color: #6c757d;
+    display: none;
+}
+
+.filter-status.show {
+    display: block;
+}
+
+.active-filters {
+    color: #495057;
+    font-weight: 500;
+}
+
+/* Loading animation for table */
+.loading-row {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.loading-row::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(139, 92, 246, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--neon-purple);
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 0.5rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .filter-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-group, .search-group {
+        min-width: auto;
+    }
+    
+    .reset-button {
+        align-self: center;
+        min-width: 120px;
+    }
+}
+.user-ratings-table {
+    border-radius: 1rem;
+    overflow: hidden;
+    background: transparent;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border: 1px solid rgba(139,92,246,0.15);
+    box-shadow: 0 4px 24px rgba(60,60,120,0.08);
+    min-width: 700px; /* Ensures horizontal scroll on small screens */
+    font-size: 1.1rem;
+}
+.user-ratings-table th, .user-ratings-table td {
+    padding: 1.25rem 2rem;
+    text-align: center;
+    font-size: 1em;
+}
+.user-ratings-table thead th {
+    background: var(--gradient-primary);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.1em;
+}
+.user-ratings-table tr {
+    transition: background 0.2s;
+}
+.user-ratings-table tr:hover {
+    background: rgba(139,92,246,0.10);
+}
+.rating-emoji {
+    font-size: 2rem;
+    vertical-align: middle;
+    margin-left: 0.3em;
+}
+.rating-1 { color: #e53e3e; }
+.rating-2 { color: #ed8936; }
+.rating-3 { color: #ecc94b; }
+.rating-4 { color: #38a169; }
+.rating-5 { color: #3182ce; }
+.feature-card {
+    padding: 2rem 1rem 2.5rem 1rem !important;
+}
+.section-title {
+    font-size: 1.5rem !important;
+}
+@media (max-width: 700px) {
+    .user-ratings-table th, .user-ratings-table td {
+        padding: 0.7rem 0.5rem !important;
+        font-size: 0.95em !important;
+    }
+    .rating-emoji {
+        font-size: 1.3rem !important;
+    }
+    .feature-card {
+        padding: 1rem 0.2rem 1.5rem 0.2rem !important;
+    }
+    .section-title {
+        font-size: 1.1rem !important;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Particle Background -->
+<div class="particle-bg" id="particleBg"></div>
+
+<!-- Hero Section -->
+<section class="hero-section" style="min-height: 0; padding-top: 0; padding-bottom: 0;">
+    <div class="hero-content">
+        <div class="logo-container">
+            <div class="logo-glow"></div>
+            <h1 class="hero-title">لیست امتیازهای کاربران</h1>
+            <div class="logo-subtitle">نمایش تمام امتیازهای ثبت‌شده توسط کاربران با فیلتر پیشرفته</div>
+        </div>
+        <div class="hero-description">
+            <p>در این بخش می‌توانید امتیازهای ثبت‌شده را بر اساس کاربر یا امتیاز فیلتر کنید.</p>
+        </div>
+    </div>
+</section>
+
+<section class="features-section " style="padding-top: 0; margin-top: 0;">
+    <div class="container" style="margin-top: 0;">
+        <div class="feature-card" style="padding: 2rem 1rem 2.5rem 1rem; margin: 0 auto; width: 100%; max-width: none;">
+            <h2 class="section-title" style="margin-bottom: 1.2rem;">لیست امتیازهای کاربران</h2>
+            <br>
+            <!-- Filter Controls -->
+            <div class="filter-container">
+                <form id="filterForm" class="filter-form">
+                    <div class="filter-group">
+                        <label for="sortSelect">مرتب‌سازی</label>
+                        <select name="sort" id="sortSelect" class="filter-select">
+                            <option value="-submitted_at">جدیدترین</option>
+                            <option value="submitted_at">قدیمی‌ترین</option>
+                            <option value="-rating">امتیاز (۵→۱)</option>
+                            <option value="rating">امتیاز (۱→۵)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="ratingSelect">امتیاز</label>
+                        <select name="rating" id="ratingSelect" class="filter-select">
+                            <option value="">همه امتیازها</option>
+                            <option value="1">😡 (۱)</option>
+                            <option value="2">😞 (۲)</option>
+                            <option value="3">😐 (۳)</option>
+                            <option value="4">🙂 (۴)</option>
+                            <option value="5">😍 (۵)</option>
+                        </select>
+                    </div>
+                    <div class="search-group">
+                        <label for="searchInput">جستجو</label>
+                        <input type="text" name="search" id="searchInput" class="search-input" placeholder="جستجو کاربر یا ایمیل...">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    <div class="filter-group">
+                        <label>&nbsp;</label>
+                        <button type="button" id="resetBtn" class="reset-button">ریست</button>
+                    </div>
+                </form>
+            </div>
+            <div id="filterStatus" class="filter-status">
+                <span id="activeFilters" class="active-filters"></span>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered text-center user-ratings-table" id="ratingsTable">
+                    <thead style="background: var(--gradient-primary); color: #fff;">
+                        <tr>
+                            <th style="text-align: center;">کاربر</th>
+                            <th style="text-align: center;">ایمیل</th>
+                            <th style="text-align: center;">امتیاز</th>
+                            <th style="text-align: center;">تاریخ/زمان</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ratingsTbody">
+                        {% for rating in ratings %}
+                        <tr style="background: rgba(255,255,255,0.03); text-align: center;">
+                            <td style="font-weight:600;">{{ rating.user.username }}</td>
+                            <td>{{ rating.user.email }}</td>
+                            <td style="font-size:1.5rem;">
+                                <span class="rating-emoji rating-{{ rating.rating }}" title="{% if rating.rating == 1 %}خیلی بد{% elif rating.rating == 2 %}بد{% elif rating.rating == 3 %}معمولی{% elif rating.rating == 4 %}خوب{% elif rating.rating == 5 %}عالی{% endif %}">
+                                    {% if rating.rating == 1 %}😡{% elif rating.rating == 2 %}😞{% elif rating.rating == 3 %}😐{% elif rating.rating == 4 %}🙂{% elif rating.rating == 5 %}😍{% endif %}
+                                </span>
+                                <span style="font-size:1rem;">({{ rating.rating }})</span>
+                            </td>
+                            <td>{{ rating.submitted_at|date:"Y/m/d H:i" }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="4">هیچ امتیازی ثبت نشده است.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+// Particle animation for admin pages (copied from home page)
+function createParticles() {
+    const container = document.getElementById('particleBg');
+    if (!container) return;
+    const particleCount = 50;
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 3 + 's';
+        particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        container.appendChild(particle);
+    }
+}
+document.addEventListener('DOMContentLoaded', createParticles);
+
+// --- AJAX Filtering & Search ---
+function renderRatingsTable(ratings) {
+    const tbody = document.getElementById('ratingsTbody');
+    tbody.innerHTML = '';
+    if (ratings.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4">هیچ امتیازی ثبت نشده است.</td></tr>';
+        return;
+    }
+    ratings.forEach(rating => {
+        tbody.innerHTML += `
+        <tr style="background: rgba(255,255,255,0.03); text-align: center;">
+            <td style="font-weight:600;">${rating.username}</td>
+            <td>${rating.email}</td>
+            <td style="font-size:1.5rem;">
+                <span class="rating-emoji rating-${rating.rating}" title="${rating.rating_text}">${rating.rating_emoji}</span>
+                <span style="font-size:1rem;">(${rating.rating})</span>
+            </td>
+            <td>${rating.submitted_at}</td>
+        </tr>
+        `;
+    });
+}
+
+function updateFilterStatus() {
+    const sort = document.getElementById('sortSelect').value;
+    const rating = document.getElementById('ratingSelect').value;
+    const search = document.getElementById('searchInput').value;
+    const filterStatus = document.getElementById('filterStatus');
+    const activeFilters = document.getElementById('activeFilters');
+    
+    const filters = [];
+    if (sort !== '-submitted_at') {
+        const sortText = {
+            'submitted_at': 'قدیمی‌ترین',
+            '-rating': 'امتیاز (۵→۱)',
+            'rating': 'امتیاز (۱→۵)'
+        }[sort] || sort;
+        filters.push(`مرتب‌سازی: ${sortText}`);
+    }
+    if (rating) {
+        const ratingText = {
+            '1': '😡 (۱)', '2': '😞 (۲)', '3': '😐 (۳)', 
+            '4': '🙂 (۴)', '5': '😍 (۵)'
+        }[rating] || rating;
+        filters.push(`امتیاز: ${ratingText}`);
+    }
+    if (search) {
+        filters.push(`جستجو: "${search}"`);
+    }
+    
+    if (filters.length > 0) {
+        activeFilters.textContent = 'فیلترهای فعال: ' + filters.join(' | ');
+        filterStatus.classList.add('show');
+    } else {
+        filterStatus.classList.remove('show');
+    }
+}
+
+function fetchRatings() {
+    const sort = document.getElementById('sortSelect').value;
+    const rating = document.getElementById('ratingSelect').value;
+    const search = document.getElementById('searchInput').value;
+    const params = new URLSearchParams({sort, rating, search});
+    
+    // Update filter status
+    updateFilterStatus();
+    
+    // Show loading state
+    const tbody = document.getElementById('ratingsTbody');
+    tbody.innerHTML = '<tr><td colspan="4" class="loading-row">در حال بارگذاری...</td></tr>';
+    
+    const url = window.location.pathname + '?' + params.toString();
+    console.log('Fetching ratings from:', url);
+    
+    fetch(url, {
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    })
+    .then(res => {
+        console.log('Response status:', res.status);
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+    })
+    .then(data => {
+        console.log('Received data:', data);
+        renderRatingsTable(data.ratings);
+    })
+    .catch(error => {
+        console.error('Error fetching ratings:', error);
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #e53e3e; padding: 2rem; font-style: italic;">خطا در بارگذاری داده‌ها. لطفاً صفحه را رفرش کنید.</td></tr>';
+    });
+}
+
+document.getElementById('sortSelect').addEventListener('change', fetchRatings);
+document.getElementById('ratingSelect').addEventListener('change', fetchRatings);
+document.getElementById('searchInput').addEventListener('input', function() {
+    // Debounce for search
+    clearTimeout(window._searchDebounce);
+    window._searchDebounce = setTimeout(fetchRatings, 350);
+});
+document.getElementById('resetBtn').addEventListener('click', function() {
+    document.getElementById('sortSelect').value = '-submitted_at';
+    document.getElementById('ratingSelect').value = '';
+    document.getElementById('searchInput').value = '';
+    fetchRatings();
+});
+// On page load, set initial values from context (if any)
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('sortSelect').value = '{{ sort_by|default:"-submitted_at" }}';
+    document.getElementById('ratingSelect').value = '{{ selected_rating|default:"" }}';
+    document.getElementById('searchInput').value = '{{ search_query|default:"" }}';
+    updateFilterStatus();
+});
+</script>
+{% block footer %}{% endblock %}
+{% endblock %} 

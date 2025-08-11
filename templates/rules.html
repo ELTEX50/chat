@@ -1,0 +1,358 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}قوانین و مقررات - PIMXCHAT{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<!-- Particle Background -->
+<div class="particle-bg" id="particleBg"></div>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-content">
+        <div class="logo-container">
+            <div class="logo-glow"></div>
+            <h1 class="hero-title">قوانین و مقررات</h1>
+            <div class="logo-subtitle">راهنمای استفاده صحیح از PIMXCHAT</div>
+        </div>
+        
+        <div class="hero-description">
+            <p>برای استفاده ایمن و مؤثر از PIMXCHAT، لطفاً قوانین و مقررات زیر را مطالعه کنید</p>
+            <p>رعایت این قوانین به حفظ امنیت و کیفیت خدمات کمک می‌کند</p>
+        </div>
+        
+        <div class="hero-actions">
+            <a href="#general-rules" class="cta-button primary">
+                <span>اصول و قوانین پایه
+                </span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m6 9 6 6 6-6"/>
+                </svg>
+            </a>
+            <a href="#usage-guidelines" class="cta-button secondary">
+                <span>راهنمای استفاده</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Floating Rules Preview -->
+    <div class="chat-preview">
+        <div class="preview-header">
+            <div class="preview-avatar">
+                <div class="avatar-pulse"></div>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+            </div>
+            <div class="preview-info">
+                <h3>قوانین مهم</h3>
+                <span class="status">ضروری</span>
+            </div>
+        </div>
+        
+        <div class="preview-messages">
+            <div class="preview-message ai-message">
+                <div class="message-bubble">
+                    <p>استفاده مسئولانه از PIMXCHAT</p>
+                </div>
+            </div>
+            <div class="preview-message user-message">
+                <div class="message-bubble">
+                    <p>احترام به حریم خصوصی</p>
+                </div>
+            </div>
+            <div class="preview-message ai-message">
+                <div class="message-bubble">
+                    <p>عدم سوء استفاده از خدمات</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section" id="general-rules">
+    <div class="container">
+        <h2 class="section-title">اصول و قوانین پایه</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
+                <h3>استفاده مسئولانه</h3>
+                <p>کاربران موظف هستند از PIMXCHAT به صورت مسئولانه و در چارچوب قوانین استفاده کنند</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 12l2 2 4-4"/>
+                        <path d="M21 12c-1 0-2-1-2-2s1-2 2-2 2 1 2 2-1 2-2 2z"/>
+                    </svg>
+                </div>
+                <h3>حریم خصوصی</h3>
+                <p>حفظ حریم خصوصی کاربران و اطلاعات شخصی آنها از اهمیت بالایی برخوردار است</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <h3>امنیت اطلاعات</h3>
+                <p>کاربران مسئول حفظ امنیت حساب کاربری و اطلاعات خود هستند</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 8l6 6 6-6"/>
+                        <path d="M12 2v12"/>
+                        <path d="M2 12h20"/>
+                    </svg>
+                </div>
+                <h3>استفاده معقول</h3>
+                <p>از سیستم به صورت معقول استفاده کنید و از ارسال پیام‌های مکرر و بی‌هدف خودداری کنید</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2v20M2 12h20"/>
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <h3>احترام متقابل</h3>
+                <p>با احترام و ادب با سیستم تعامل کنید و از استفاده از زبان نامناسب خودداری کنید</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                </div>
+                <h3>گزارش مشکلات</h3>
+                <p>مشکلات فنی یا نقض قوانین را به تیم پشتیبانی گزارش دهید</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- AI Info Section -->
+<section class="ai-info-section" id="usage-guidelines">
+    <div class="container">
+        <h2 class="section-title">راهنمای استفاده صحیح</h2>
+        
+        <div class="ai-info-grid">
+            <div class="ai-info-section-item">
+                <div class="ai-info-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <div class="ai-info-content">
+                    <h3>سوالات مناسب</h3>
+                    <p>سوالات خود را به صورت واضح و مشخص مطرح کنید تا پاسخ‌های دقیق‌تری دریافت کنید. از سوالات مبهم یا پیچیده خودداری کنید.</p>
+                    <p class="highlight-text">نکته: هر چه سوال شما دقیق‌تر باشد، پاسخ بهتری دریافت خواهید کرد.</p>
+                </div>
+            </div>
+            
+            <div class="ai-info-section-item">
+                <div class="ai-info-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
+                <div class="ai-info-content">
+                    <h3>استفاده معقول</h3>
+                    <p>از سیستم به صورت معقول استفاده کنید. از ارسال پیام‌های مکرر و بی‌هدف خودداری کنید تا کیفیت خدمات برای همه کاربران حفظ شود.</p>
+                    <p class="highlight-text">محدودیت: حداکثر 100 پیام در روز برای کاربران عادی</p>
+                </div>
+            </div>
+            
+            <div class="ai-info-section-item">
+                <div class="ai-info-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 8l6 6 6-6"/>
+                    </svg>
+                </div>
+                <div class="ai-info-content">
+                    <h3>احترام متقابل</h3>
+                    <p>با احترام و ادب با سیستم تعامل کنید. از استفاده از زبان نامناسب، توهین‌آمیز یا آزاردهنده خودداری کنید.</p>
+                    <p class="highlight-text">یادآوری: احترام متقابل کلید تجربه‌ای مثبت است.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">امنیت اطلاعات</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">دسترسی</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">تضمین کیفیت</div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Prohibited Content Section -->
+<section class="features-section" id="prohibited-content">
+    <div class="container">
+        <h2 class="section-title">محتوای ممنوع و سوالات متداول</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18.364 18.364A9 9 0 1 1 5.636 5.636a9 9 0 0 1 12.728 12.728zM12 8v4m0 4h.01"/>
+                    </svg>
+                </div>
+                <h3>محتوای غیرقانونی</h3>
+                <p>هرگونه محتوای که برخلاف قوانین محلی یا بین‌المللی باشد ممنوع است</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
+                <h3>محتوای توهین‌آمیز</h3>
+                <p>محتوای توهین‌آمیز، تهدیدآمیز یا آزاردهنده مجاز نیست</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                    </svg>
+                </div>
+                <h3>اطلاعات شخصی</h3>
+                <p>اشتراک‌گذاری اطلاعات شخصی خود یا دیگران ممنوع است</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <h3>محتوای تجاری</h3>
+                <p>تبلیغات غیرمجاز یا محتوای تجاری بدون مجوز ممنوع است</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </div>
+                <h3>محتوای نامناسب</h3>
+                <p>محتوای جنسی، خشونت‌آمیز یا نامناسب برای سن مجاز نیست</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                </div>
+                <h3>کلاهبرداری</h3>
+                <p>تلاش برای کلاهبرداری یا فریب کاربران ممنوع است</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Technical Guidelines Section -->
+<section class="ai-info-section" id="technical-guidelines">
+    <div class="container">
+        <h2 class="section-title">راهنمای فنی</h2>
+        
+        <div class="ai-info-grid">
+            <div class="ai-info-section-item">
+                <div class="ai-info-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
+                <div class="ai-info-content">
+                    <h3>مرورگرهای پشتیبانی شده</h3>
+                    <p>برای بهترین تجربه، از مرورگرهای زیر استفاده کنید: Google Chrome (نسخه 90+)، Mozilla Firefox (نسخه 88+)، Safari (نسخه 14+)، Microsoft Edge (نسخه 90+)</p>
+                    <p class="highlight-text">توصیه: از آخرین نسخه مرورگر خود استفاده کنید.</p>
+                </div>
+            </div>
+            
+            <div class="ai-info-section-item">
+                <div class="ai-info-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <div class="ai-info-content">
+                    <h3>نیازمندی‌های سیستم</h3>
+                    <p>حداقل نیازمندی‌های سیستم: اتصال اینترنت پایدار، حداقل 4GB RAM، پردازنده دو هسته‌ای، حداقل 100MB فضای آزاد</p>
+                    <p class="highlight-text">نکته: سرعت اینترنت تأثیر مستقیم بر کیفیت تجربه دارد.</p>
+                </div>
+            </div>
+            
+            <div class="ai-info-section-item">
+                <div class="ai-info-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 8l6 6 6-6"/>
+                    </svg>
+                </div>
+                <div class="ai-info-content">
+                    <h3>بهینه‌سازی عملکرد</h3>
+                    <p>برای بهبود عملکرد: کش مرورگر را پاک کنید، از افزونه‌های غیرضروری استفاده نکنید، اتصال اینترنت خود را بررسی کنید، مرورگر خود را به‌روزرسانی کنید</p>
+                    <p class="highlight-text">راه‌حل: در صورت مشکل، ابتدا مرورگر را رفرش کنید.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <h2>آماده استفاده از PIMXCHAT هستید؟</h2>
+        <p>با رعایت قوانین و مقررات، تجربه‌ای ایمن و مفید خواهید داشت</p>
+        <div class="cta-actions">
+            <a href="{% url 'pimxchat:chat' %}" class="cta-button primary">
+                <span>شروع چت</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m22 2-7 20-4-9-9-4 20-7z"/>
+                    <path d="M22 2 11 13"/>
+                </svg>
+            </a>
+
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block extra_scripts %}
+    <script src="{% static 'js/home.js' %}"></script>
+{% endblock %} 

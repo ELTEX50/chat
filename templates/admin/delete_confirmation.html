@@ -1,0 +1,74 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block title %}تایید حذف - مدیریت PIMXCHAT{% endblock %}
+
+{% block content %}
+<div class="admin-card" style="max-width: 600px; margin: 0 auto;">
+    <div class="card-header" style="justify-content: center;">
+        <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #dc2626;">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <circle cx="12" cy="16" r="1"/>
+            </svg>
+        </div>
+        <h3 class="card-title" style="color: #dc2626;">تایید حذف</h3>
+    </div>
+    <div class="admin-item">
+        <div class="admin-info">
+            <div class="admin-label" style="color: #ef4444;">آیا مطمئن هستید که می‌خواهید این مورد را حذف کنید؟</div>
+            <div class="admin-description-text">این عملیات غیرقابل بازگشت است و اطلاعات حذف شده قابل بازیابی نخواهد بود.</div>
+        </div>
+    </div>
+    <form method="post">{% csrf_token %}
+        {% if deleted_objects %}
+        <div class="admin-item">
+            <div class="admin-info">
+                <div class="admin-label">مواردی که حذف خواهند شد:</div>
+                <ul style="color: #f87171; margin-top: 10px;">
+                    {% for obj in deleted_objects %}
+                        <li>{{ obj }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+        {% if perms_lacking or protected %}
+        <div class="admin-message" style="color: #f59e42;">
+            {% if perms_lacking %}
+                <p>شما مجوز حذف برخی از این موارد را ندارید:</p>
+                <ul>
+                {% for obj in perms_lacking %}
+                    <li>{{ obj }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            {% if protected %}
+                <p>موارد زیر به دلیل محافظت قابل حذف نیستند:</p>
+                <ul>
+                {% for obj in protected %}
+                    <li>{{ obj }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        {% else %}
+        <div class="admin-actions" style="margin-top: 30px;">
+            <button type="submit" class="admin-action-btn" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
+                <span>تایید حذف</span>
+            </button>
+            <a href="javascript:history.back()" class="admin-action-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                <span>انصراف</span>
+            </a>
+        </div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %} 

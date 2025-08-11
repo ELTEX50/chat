@@ -1,0 +1,1184 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'fa' %}rtl{% else %}ltr{% endif %}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>{% block title %}PIMXCHAT{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    {% if LANGUAGE_CODE == 'fa' %}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    {% else %}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% endif %}
+    {% block extra_head %}{% endblock %}
+    <style>
+        :root {
+            --neon-purple: #8b5cf6;
+            --neon-blue: #3b82f6;
+            --neon-pink: #ec4899;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #222222;
+            --text-secondary: #555555;
+            --border-color: #e0e0e0;
+            --font-persian: 'Vazirmatn', 'Tahoma', 'Arial', sans-serif;
+            --font-english: 'Inter', 'Segoe UI', 'Arial', sans-serif;
+        }
+
+        /* Remove dark-mode logic: always use light theme */
+        body {
+            font-family: var(--font-persian);
+            line-height: 1.6;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        
+        /* Persian font support */
+        body {
+            font-family: var(--font-persian);
+            line-height: 1.6;
+        }
+        
+        /* Apply Persian font to navigation links */
+        .nav-link {
+            font-family: var(--font-persian);
+        }
+        
+        /* Apply Persian font to buttons */
+        .btn-neon, .btn-outline-neon, .btn-profile {
+            font-family: var(--font-persian);
+        }
+        
+        /* Apply Persian font to dropdown items */
+        .dropdown-item {
+            font-family: var(--font-persian);
+        }
+        
+        /* Apply Persian font to navbar brand */
+        .navbar-brand {
+            font-family: 'Orbitron', monospace; /* Keep the logo font as is */
+        }
+        
+        /* Apply Persian font to footer */
+        .footer {
+            font-family: var(--font-persian);
+        }
+        
+        /* Apply Persian font to messages */
+        .message-text {
+            font-family: var(--font-persian);
+        }
+        
+        /* RTL support for Persian text */
+        [dir="rtl"] {
+            font-family: var(--font-persian);
+        }
+        
+        /* Ensure proper font rendering for Persian text */
+        .nav-link, .btn-neon, .btn-outline-neon, .btn-profile, .dropdown-item, .footer, .message-text {
+            font-feature-settings: "kern" 1, "liga" 1;
+            text-rendering: optimizeLegibility;
+        }
+        
+        /* Better line height for Persian text */
+        .nav-link, .dropdown-item, .btn-neon, .btn-outline-neon, .btn-profile {
+            line-height: 1.5;
+        }
+        
+        .navbar, .footer { 
+            transition: background 0.3s, color 0.3s; 
+        }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .navbar-brand svg {
+            width: 32px;
+            height: 32px;
+            color: var(--neon-purple);
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-secondary) !important;
+            transition: all 0.3s ease;
+            margin: 0 4px;
+            padding: 8px 12px !important;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .nav-link:hover {
+            color: var(--neon-purple) !important;
+            background: rgba(139, 92, 246, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .nav-link.active {
+            color: var(--neon-purple) !important;
+            background: rgba(139, 92, 246, 0.15);
+        }
+        
+        /* Compact action buttons */
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-neon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 0.9rem;
+        }
+
+        .btn-neon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.3s ease;
+        }
+
+        .btn-neon:hover::before {
+            left: 100%;
+        }
+
+        .btn-neon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-outline-neon {
+            background: transparent;
+            border: 2px solid var(--neon-purple);
+            color: var(--neon-purple);
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-outline-neon:hover {
+            background: var(--neon-purple);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Compact icon buttons */
+        .btn-icon {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-secondary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .btn-icon:hover {
+            border-color: var(--neon-purple);
+            color: var(--neon-purple);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+        }
+
+        /* Dropdown styles */
+        .dropdown-menu {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            min-width: 120px;
+            margin-top: 8px;
+            z-index: 1040;
+            position: absolute;
+            top: 100%;
+            right: 0;
+        }
+
+        .dropdown-item {
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--neon-purple);
+        }
+
+        .dropdown-toggle::after {
+            display: none;
+        }
+
+        /* User Profile Dropdown Styles */
+        .btn-profile {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .btn-profile:hover {
+            border-color: var(--neon-purple);
+            color: var(--neon-purple);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+        }
+
+        .profile-avatar {
+            position: relative;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .profile-picture {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid var(--neon-purple);
+            transition: all 0.3s ease;
+        }
+
+        .profile-picture:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+        }
+
+        .avatar-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            filter: blur(8px);
+            opacity: 0.6;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .avatar-text {
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .username {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .user-dropdown {
+            min-width: 200px;
+            padding: 8px 0;
+            margin-top: 8px;
+        }
+
+        .user-dropdown .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .user-dropdown .dropdown-item svg {
+            width: 16px;
+            height: 16px;
+            color: var(--text-secondary);
+        }
+
+        .user-dropdown .dropdown-item:hover svg {
+            color: var(--neon-purple);
+        }
+
+        .user-dropdown .dropdown-item.text-danger {
+            color: #ef4444 !important;
+        }
+
+        .user-dropdown .dropdown-item.text-danger:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444 !important;
+        }
+
+        .user-dropdown .dropdown-item.text-danger svg {
+            color: #ef4444;
+        }
+
+        .dropdown-divider {
+            margin: 8px 0;
+            border-color: var(--border-color);
+        }
+
+        /* Enhanced footer styles */
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 0 2rem;
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .footer-section h5 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .footer-links a:hover {
+            color: var(--neon-purple);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .social-link:hover {
+            background: var(--neon-purple);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            justify-content: center;
+        }
+        
+        .contact-item svg {
+            width: 16px;
+            height: 16px;
+            color: var(--neon-purple);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Messages Display Styles */
+        .messages-container {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            z-index: 1050;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .message-alert {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            animation: slideInRight 0.3s ease-out;
+            padding: 15px 20px;
+        }
+
+        .message-alert.alert-success {
+            border-left: 4px solid #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .message-alert.alert-error {
+            border-left: 4px solid #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .message-alert.alert-warning {
+            border-left: 4px solid #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .message-alert.alert-info {
+            border-left: 4px solid #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .message-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .message-icon {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+        }
+
+        .message-alert.alert-success .message-icon {
+            color: #10b981;
+        }
+
+        .message-alert.alert-error .message-icon {
+            color: #ef4444;
+        }
+
+        .message-alert.alert-warning .message-icon {
+            color: #f59e0b;
+        }
+
+        .message-alert.alert-info .message-icon {
+            color: #3b82f6;
+        }
+
+        .message-text {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            line-height: 1.4;
+            flex-grow: 1;
+        }
+
+        .message-alert .btn-close {
+            color: var(--text-secondary);
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .message-alert .btn-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        .message-alert.fade-out {
+            animation: slideOutRight 0.3s ease-in forwards;
+        }
+
+        /* Auto-hide messages after 5 seconds */
+        .message-alert {
+            transition: all 0.3s ease;
+        }
+
+        /* Ensure main content doesn't overlap with fixed navbar */
+
+        /* Responsive design */
+        @media (max-width: 992px) {
+            .navbar-actions {
+                flex-direction: column;
+                gap: 8px;
+                width: 100%;
+                margin-top: 1rem;
+            }
+            
+            .navbar-nav {
+                margin-bottom: 1rem;
+            }
+            
+            /* Tablet footer layout - side by side like desktop */
+            .footer-content {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+            
+            .footer-section h5 {
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+            
+            .footer-links {
+                align-items: center;
+            }
+            
+            .contact-info {
+                align-items: center;
+            }
+            
+            .contact-item {
+                justify-content: center;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.3rem;
+            }
+            
+            .navbar-brand svg {
+                width: 28px;
+                height: 28px;
+            }
+            
+            .nav-link {
+                padding: 6px 10px !important;
+                font-size: 0.9rem;
+            }
+            
+            .btn-neon, .btn-outline-neon {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+            
+            .btn-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+            
+            .btn-profile {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+            
+            .profile-avatar {
+                width: 28px;
+                height: 28px;
+            }
+            
+            .profile-picture {
+                width: 100%;
+                height: 100%;
+            }
+            
+            .avatar-text {
+                font-size: 0.9rem;
+            }
+            
+            .username {
+                display: none;
+            }
+            
+            /* Footer mobile layout */
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+            
+            .footer-section:last-child {
+                grid-column: 1 / -1;
+                margin-top: 1rem;
+            }
+            
+            .footer-section h5 {
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+            
+            .footer-links {
+                align-items: center;
+            }
+            
+            .contact-info {
+                align-items: center;
+            }
+            
+            .contact-item {
+                justify-content: center;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .navbar-actions {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+            
+            /* Mobile message styles */
+            .messages-container {
+                top: 80px;
+                right: 10px;
+                left: 10px;
+                max-width: none;
+            }
+            
+            .message-alert {
+                padding: 12px 16px;
+                margin-bottom: 8px;
+            }
+            
+            .message-text {
+                font-size: 0.9rem;
+            }
+        }
+        /* Fade-in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1), transform 0.8s cubic-bezier(0.4,0,0.2,1);
+            will-change: opacity, transform;
+        }
+        .fade-in.fade-in-visible {
+            opacity: 1;
+            transform: none;
+        }
+    </style>
+</head>
+<body class="{% if request.resolver_match.url_name == 'chat' %}chat-page{% endif %}">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg" id="mainNavbar">
+        <div class="container">
+            <!-- Logo -->
+                <a class="navbar-brand" href="{% url 'pimxchat:home' %}">
+                    <img src="{% static 'img/logo.png' %}" alt="PIMXCHAT Logo" style="height:48px; width:auto; display:inline-block; vertical-align:middle; margin-left:8px;">
+                    <span>PIMXCHAT</span>
+                </a>
+                
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Navigation Content -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Navigation Links -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'pimxchat:home' %}">خانه</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}" href="{% url 'pimxchat:about' %}">درباره ما</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'rules' %}active{% endif %}" href="{% url 'pimxchat:rules' %}">قوانین</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'chat' %}active{% endif %}" href="{% url 'pimxchat:chat' %}">چت</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'terms' %}active{% endif %}" href="{% url 'pimxchat:terms' %}">شرایط خدمات</a>
+                    </li>
+                </ul>
+            
+            <!-- Left Side Actions -->
+                <div class="navbar-actions me-auto">
+                    <!-- Auth Buttons for Non-Authenticated Users -->
+                    {% if not user.is_authenticated %}
+                        <a href="{% url 'accounts:register' %}" class="btn btn-neon">ثبت نام</a>
+                        <a href="{% url 'accounts:login' %}" class="btn btn-outline-neon">ورود</a>
+                    {% else %}
+                        <!-- User Profile Dropdown for Authenticated Users -->
+                        <div class="dropdown">
+                            <button class="btn btn-profile dropdown-toggle" type="button" id="userProfileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="profile-avatar">
+                                    {% if user.profile_picture %}
+                                        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}" class="profile-picture" onerror="this.onerror=null;this.src='/static/img/default_profile.png';">
+                                    {% else %}
+                                        <div class="avatar-glow"></div>
+                                        <span class="avatar-text">{{ user.username|first|upper }}</span>
+                                    {% endif %}
+                                </div>
+                                <span class="username">{{ user.username }}</span>
+                            </button>
+                            <ul class="dropdown-menu user-dropdown" aria-labelledby="userProfileDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'accounts:profile' %}">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                            <circle cx="12" cy="7" r="4"/>
+                                        </svg>
+                                        پروفایل
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'accounts:settings' %}">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="3"/>
+                                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                                        </svg>
+                                        تنظیمات
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="{% url 'accounts:logout' %}">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                            <polyline points="16,17 21,12 16,7"/>
+                                            <line x1="21" y1="12" x2="9" y2="12"/>
+                                        </svg>
+                                        خروج
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                    
+
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Messages Display -->
+    {% if messages %}
+    <div class="messages-container" id="messagesContainer">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show message-alert" role="alert">
+            <div class="message-content">
+                <div class="message-icon">
+                    {% if message.tags == 'success' %}
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22,4 12,14.01 9,11"/>
+                        </svg>
+                    {% elif message.tags == 'error' %}
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="15" y1="9" x2="9" y2="15"/>
+                            <line x1="9" y1="9" x2="15" y2="15"/>
+                        </svg>
+                    {% elif message.tags == 'warning' %}
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                            <line x1="12" y1="9" x2="12" y2="13"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                    {% elif message.tags == 'info' %}
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="16" x2="12" y2="12"/>
+                            <line x1="12" y1="8" x2="12.01" y2="8"/>
+                        </svg>
+                    {% endif %}
+                </div>
+                <div class="message-text">{{ message }}</div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="container-fluid p-0" id="mainContent">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Enhanced Footer -->
+    <footer class="footer" id="mainFooter">
+        <div class="container">
+            <div class="footer-content">
+                <!-- Navigation Links -->
+                <div class="footer-section">
+                    <h5>دسترسی سریع</h5>
+            <div class="footer-links">
+                        <a href="{% url 'pimxchat:home' %}">خانه</a>
+                        <a href="{% url 'pimxchat:about' %}">درباره ما</a>
+                        <a href="{% url 'pimxchat:rules' %}">قوانین</a>
+                        <a href="{% url 'pimxchat:chat' %}">چت</a>
+                <a href="{% url 'pimxchat:terms' %}">شرایط خدمات</a>
+                    </div>
+                </div>
+                
+                <!-- Contact Information -->
+                <div class="footer-section">
+                    <h5>تماس با ما</h5>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                            <span>info@pimxchat.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            <span>تهران، ایران</span>
+                        </div>
+                        <div class="contact-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                            <span>پشتیبانی ۲۴/۷</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Social Media -->
+                <div class="footer-section">
+                    <h5>شبکه‌های اجتماعی</h5>
+                    <div class="social-links">
+                        <a href="https://t.me/pimxchat" class="social-link" target="_blank" rel="noopener">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                            </svg>
+                        </a>
+                        <a href="https://instagram.com/pimxchat" class="social-link" target="_blank" rel="noopener">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <span>&copy; ۲۰۲۴ PIMXCHAT. تمامی حقوق محفوظ است. ساخته شده با ❤️ توسط محمدرضا عابدینی‌پور</span>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/translations.js' %}"></script>
+    <script>
+        // Theme management
+        function setTheme(theme) {
+            if (theme === 'system') {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.body.classList.toggle('dark-mode', prefersDark);
+                localStorage.setItem('theme', 'system');
+            } else {
+                document.body.classList.toggle('dark-mode', theme === 'dark');
+                localStorage.setItem('theme', theme);
+            }
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'system';
+        setTheme(savedTheme);
+
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (localStorage.getItem('theme') === 'system') {
+                document.body.classList.toggle('dark-mode', e.matches);
+            }
+        });
+
+        // Language management - now handled by translations.js
+        function changeLanguage(lang) {
+            // This function is now handled by the translations.js file
+            console.log('Language change requested:', lang);
+        }
+
+        // Font size controls
+        function changeFontSize(size) {
+            document.body.classList.remove('font-size-small', 'font-size-large');
+            if (size === 'small') document.body.classList.add('font-size-small');
+            if (size === 'large') document.body.classList.add('font-size-large');
+            localStorage.setItem('fontSize', size);
+        }
+        
+        // Load saved font size
+        const savedFontSize = localStorage.getItem('fontSize');
+        if (savedFontSize) {
+            changeFontSize(savedFontSize);
+        }
+
+        // Hide navbar and footer on chat page
+        function hideNavbarAndFooter() {
+            const currentPath = window.location.pathname;
+            const navbar = document.getElementById('mainNavbar');
+            const footer = document.getElementById('mainFooter');
+            
+            if (currentPath.includes('/chat/') || currentPath === '/chat/') {
+                if (navbar) navbar.style.display = 'none';
+                if (footer) footer.style.display = 'none';
+            }
+        }
+
+        // Message handling
+        function setupMessages() {
+            const messages = document.querySelectorAll('.message-alert');
+            messages.forEach(message => {
+                // Auto-hide messages after 5 seconds
+                setTimeout(() => {
+                    if (message && message.parentNode) {
+                        message.classList.add('fade-out');
+                        setTimeout(() => {
+                            if (message && message.parentNode) {
+                                message.remove();
+                            }
+                        }, 300);
+                    }
+                }, 5000);
+
+                // Handle manual close
+                const closeBtn = message.querySelector('.btn-close');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => {
+                        message.classList.add('fade-out');
+                        setTimeout(() => {
+                            if (message && message.parentNode) {
+                                message.remove();
+                            }
+                        }, 300);
+                    });
+                }
+            });
+        }
+
+        // Add active class to current nav item and setup dropdowns
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, setting up navbar...');
+            
+            // Hide navbar and footer on chat page
+            hideNavbarAndFooter();
+            
+            // Setup messages
+            setupMessages();
+            
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Setup dropdown functionality
+            setupDropdowns();
+        });
+        
+        // Setup dropdown functionality
+        function setupDropdowns() {
+            console.log('Setting up dropdowns...');
+            
+            // Language dropdown
+            const languageDropdown = document.getElementById('languageDropdown');
+            if (languageDropdown) {
+                console.log('Found language dropdown, initializing...');
+                // Initialize Bootstrap dropdown
+                const languageDropdownInstance = new bootstrap.Dropdown(languageDropdown);
+                
+                // Add click event listeners to dropdown items
+                const languageItems = languageDropdown.parentNode.querySelectorAll('.dropdown-item');
+                console.log('Found', languageItems.length, 'language items');
+                languageItems.forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('Language item clicked:', this.textContent);
+                        
+                        // Extract language from onclick attribute
+                        const onclickAttr = this.getAttribute('onclick');
+                        const langMatch = onclickAttr.match(/changeLanguage\('([^']+)'\)/);
+                        if (langMatch) {
+                            const lang = langMatch[1];
+                            // Use the global changeLanguage function from translations.js
+                            if (typeof window.changeLanguage === 'function') {
+                                window.changeLanguage(lang);
+                            }
+                        }
+                        
+                        // Hide dropdown
+                        languageDropdownInstance.hide();
+                    });
+                });
+            } else {
+                console.log('Language dropdown not found');
+            }
+            
+            // Theme dropdown
+            const themeDropdown = document.getElementById('themeDropdown');
+            if (themeDropdown) {
+                console.log('Found theme dropdown, initializing...');
+                // Initialize Bootstrap dropdown
+                const themeDropdownInstance = new bootstrap.Dropdown(themeDropdown);
+                
+                // Add click event listeners to dropdown items
+                const themeItems = themeDropdown.parentNode.querySelectorAll('.dropdown-item');
+                console.log('Found', themeItems.length, 'theme items');
+                themeItems.forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('Theme item clicked:', this.textContent);
+                        
+                        // Extract theme from onclick attribute
+                        const onclickAttr = this.getAttribute('onclick');
+                        const themeMatch = onclickAttr.match(/setTheme\('([^']+)'\)/);
+                        if (themeMatch) {
+                            const theme = themeMatch[1];
+                            setTheme(theme);
+                        }
+                        
+                        // Hide dropdown
+                        themeDropdownInstance.hide();
+                    });
+                });
+            } else {
+                console.log('Theme dropdown not found');
+            }
+        }
+        // Fade-in animation on load and scroll
+        function fadeInOnScroll() {
+            const fadeEls = document.querySelectorAll('.fade-in');
+            const windowHeight = window.innerHeight;
+            fadeEls.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < windowHeight - 40) {
+                    el.classList.add('fade-in-visible');
+                }
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide navbar and footer on chat page
+            hideNavbarAndFooter();
+            
+            // Setup messages
+            setupMessages();
+            
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Setup dropdown functionality
+            setupDropdowns();
+            // Only add fade-in to direct children of .container in main content
+            document.querySelectorAll('#mainContent .container > *').forEach(el => el.classList.add('fade-in'));
+            fadeInOnScroll();
+            window.addEventListener('scroll', fadeInOnScroll);
+        });
+    </script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html> 

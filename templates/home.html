@@ -1,0 +1,358 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}PIMXCHAT - هوشمندترین دستیار چت{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<!-- Particle Background -->
+<div class="particle-bg" id="particleBg"></div>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-content">
+        <div class="logo-container">
+            <div class="logo-glow"></div>
+            <h1 class="hero-title">PIMXCHAT</h1>
+            <div class="logo-subtitle">هوشمندترین دستیار چت با قدرت هوش مصنوعی</div>
+        </div>
+        
+        <div class="hero-description">
+            <p>PIMXCHAT یک دستیار هوش مصنوعی پیشرفته است که با استفاده از آخرین تکنولوژی‌های AI ساخته شده است.</p>
+            <p>ساخته شده توسط محمدرضا عابدین‌پور با هدف ارائه تجربه‌ای متفاوت در گفتگو با هوش مصنوعی</p>
+        </div>
+        
+        <div class="hero-actions">
+            {% if user.is_authenticated %}
+                <a href="{% url 'pimxchat:chat' %}" class="cta-button primary">
+                    <span>شروع چت</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m22 2-7 20-4-9-9-4 20-7z"/>
+                        <path d="M22 2 11 13"/>
+                    </svg>
+                </a>
+            {% else %}
+                <a href="{% url 'accounts:login' %}" class="cta-button primary">
+                    <span>ورود</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                        <polyline points="10,17 15,12 10,7"/>
+                        <line x1="15" y1="12" x2="3" y2="12"/>
+                    </svg>
+                </a>
+                <a href="{% url 'accounts:register' %}" class="cta-button secondary">
+                    <span>ثبت نام</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="m22 2-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Floating Chat Preview -->
+    <div class="chat-preview">
+        <div class="preview-header">
+            <div class="preview-avatar">
+                <div class="avatar-pulse"></div>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+            </div>
+            <div class="preview-info">
+                <h3>PIMXCHAT</h3>
+                <span class="status">آنلاین</span>
+            </div>
+        </div>
+        
+        <div class="preview-messages">
+            <div class="preview-message ai-message">
+                <div class="message-bubble">
+                    <p>سلام! من PIMXCHAT هستم. چطور می‌تونم کمکتون کنم؟</p>
+                </div>
+            </div>
+            <div class="preview-message user-message">
+                <div class="message-bubble">
+                    <p>تو کی هستی؟</p>
+                </div>
+            </div>
+            <div class="preview-message ai-message">
+                <div class="message-bubble">
+                    <p>من PIMXCHAT هستم، یک دستیار هوش مصنوعی پیشرفته که با استفاده از آخرین تکنولوژی‌های AI ساخته شده است.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+<section class="features-section">
+        <div class="container">
+        <h2 class="section-title">ویژگی‌های منحصر به فرد</h2>
+        
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 12l2 2 4-4"/>
+                            <path d="M21 12c-1 0-2-1-2-2s1-2 2-2 2 1 2 2-1 2-2 2z"/>
+                            <path d="M3 12c1 0 2-1 2-2s-1-2-2-2-2 1-2 2 1 2 2 2z"/>
+                            <path d="M12 3c0 1-1 2-2 2s-2-1-2-2 1-2 2-2 2 1 2 2z"/>
+                            <path d="M12 21c0-1 1-2 2-2s2 1 2 2-1 2-2 2-2-1-2-2z"/>
+                        </svg>
+                    </div>
+                    <h3>هوش مصنوعی پیشرفته</h3>
+                    <p>با استفاده از آخرین تکنولوژی‌های هوش مصنوعی، پاسخ‌های دقیق و مفید ارائه می‌دهیم</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="M9 12l2 2 4-4"/>
+                        </svg>
+                    </div>
+                    <h3>امنیت بالا</h3>
+                    <p>اطلاعات شما با بالاترین استانداردهای امنیتی محافظت می‌شود</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            <path d="M12 2v20M2 12h20"/>
+                        </svg>
+                    </div>
+                    <h3>رابط کاربری مدرن</h3>
+                    <p>تجربه‌ای منحصر به فرد با انیمیشن‌های پیشرفته و طراحی آینده‌نگر</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 8l6 6 6-6"/>
+                            <path d="M12 2v12"/>
+                            <path d="M2 12h20"/>
+                        </svg>
+                    </div>
+                    <h3>پشتیبانی چندزبانه</h3>
+                    <p>پشتیبانی کامل از زبان‌های فارسی و انگلیسی</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v20M2 12h20"/>
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3>یادگیری مداوم</h3>
+                    <p>سیستم به طور مداوم از تعاملات یاد می‌گیرد و بهبود می‌یابد</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                        </svg>
+                    </div>
+                    <h3>پاسخ‌های سریع</h3>
+                    <p>پاسخ‌های فوری و دقیق با استفاده از پردازش سریع</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <h3>دقت بالا</h3>
+                    <p>پاسخ‌های دقیق و قابل اعتماد با استفاده از مدل‌های پیشرفته</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            <path d="M8 12h.01M12 12h.01M16 12h.01"/>
+                        </svg>
+                    </div>
+                    <h3>گفتگوی طبیعی</h3>
+                    <p>تجربه‌ای طبیعی و روان در گفتگو با هوش مصنوعی</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M22 12h-6l-2-2h-2v-2h2l2 2h6"/>
+                        </svg>
+                    </div>
+                    <h3>شخصی‌سازی</h3>
+                    <p>تجربه‌ای شخصی‌سازی شده بر اساس نیازهای شما</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            <path d="M12 2v20M2 12h20"/>
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3>به‌روزرسانی مداوم</h3>
+                    <p>به‌روزرسانی‌های منظم برای بهبود عملکرد</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3>حریم خصوصی</h3>
+                    <p>احترام کامل به حریم خصوصی و امنیت اطلاعات شما</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                            <line x1="12" y1="19" x2="12" y2="23"/>
+                            <line x1="8" y1="23" x2="16" y2="23"/>
+                            <path d="M12 2v20M2 12h20"/>
+                        </svg>
+                    </div>
+                    <h3>پشتیبانی 24/7</h3>
+                    <p>دسترسی 24 ساعته و 7 روز هفته به دستیار هوشمند</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- AI Information Sections -->
+<section class="ai-info-section">
+    <div class="container">
+        <div class="ai-info-grid">
+            <div class="ai-info-section-item">
+                <div class="ai-info-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 12l2 2 4-4"/>
+                        <path d="M21 12c-1 0-2-1-2-2s1-2 2-2 2 1 2 2-1 2-2 2z"/>
+                        <path d="M3 12c1 0 2-1 2-2s-1-2-2-2-2 1-2 2 1 2 2 2z"/>
+                        <path d="M12 3c0 1-1 2-2 2s-2-1-2-2 1-2 2-2 2 1 2 2z"/>
+                        <path d="M12 21c0-1 1-2 2-2s2 1 2 2-1 2-2 2-2-1-2-2z"/>
+                    </svg>
+                </div>
+                <h3>هوش مصنوعی چیست؟</h3>
+                <p>هوش مصنوعی تکنولوژی پیشرفته‌ای است که به ماشین‌ها امکان تفکر، یادگیری و حل مسئله می‌دهد. این فناوری با ترکیب الگوریتم‌های پیچیده و شبکه‌های عصبی، قابلیت درک زبان طبیعی و تشخیص الگوها را فراهم می‌کند.</p>
+            </div>
+            
+            <div class="ai-info-section-item">
+                <div class="ai-info-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <h3>قدرت Gemini</h3>
+                <p>Gemini پیشرفته‌ترین مدل هوش مصنوعی گوگل است که قابلیت پردازش همزمان متن، تصاویر، صدا و ویدیو را دارد. این تکنولوژی انقلابی به PIMXCHAT امکان ارائه پاسخ‌های هوشمند و شخصی‌سازی شده می‌دهد.</p>
+            </div>
+            
+            <div class="ai-info-section-item">
+                <div class="ai-info-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        <path d="M8 12h.01M12 12h.01M16 12h.01"/>
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <h3>PIMX Chat چگونه کار می‌کند؟</h3>
+                <p>پیام شما با پردازش هوشمند تحلیل می‌شود، سپس Gemini پاسخ‌های دقیق و زمینه‌ای تولید می‌کند. سیستم به طور مداوم از تعاملات یاد می‌گیرد تا پاسخ‌های بهتری ارائه دهد.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number" id="userCount" data-target="0">0</div>
+                <div class="stat-label">کاربر فعال</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="chatCount" data-target="0">0</div>
+                <div class="stat-label">پیام ارسال شده</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="satisfaction" data-target="0">0</div>
+                <div class="stat-label">درصد رضایت</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <h2>آماده شروع هستید؟</h2>
+        <p>همین حالا ثبت نام کنید و تجربه‌ای منحصر به فرد با هوش مصنوعی پیشرفته را آغاز کنید. PIMXCHAT آماده است تا به شما در هر زمینه‌ای کمک کند.</p>
+        <div class="cta-actions">
+            {% if user.is_authenticated %}
+                <a href="{% url 'pimxchat:chat' %}" class="cta-button primary">
+                    <span>شروع چت</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m22 2-7 20-4-9-9-4 20-7z"/>
+                        <path d="M22 2 11 13"/>
+                    </svg>
+                </a>
+            {% else %}
+                <a href="{% url 'accounts:register' %}" class="cta-button primary">
+                    <span>ثبت نام رایگان</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="m22 2-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                </a>
+                <a href="{% url 'accounts:login' %}" class="cta-button secondary">
+                    <span>ورود</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                        <polyline points="10,17 15,12 10,7"/>
+                        <line x1="15" y1="12" x2="3" y2="12"/>
+                    </svg>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/home.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/accounts/api/site-stats/')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('userCount').setAttribute('data-target', data.user_count);
+            document.getElementById('chatCount').setAttribute('data-target', data.chat_count);
+            document.getElementById('satisfaction').setAttribute('data-target', data.satisfaction);
+            if (typeof animateStats === 'function') animateStats();
+        })
+        .catch(err => {
+            console.error('Failed to fetch site stats:', err);
+        });
+});
+</script>
+{% endblock %}

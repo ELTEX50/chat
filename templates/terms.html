@@ -1,0 +1,591 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}شرایط استفاده - PIMXCHAT{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Terms Page Redesigned Styles */
+.terms-container {
+    min-height: 100vh;
+    padding: 120px 20px 60px;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-primary);
+}
+
+.terms-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-hero);
+    opacity: 0.05;
+    z-index: 1;
+}
+
+.terms-card {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+    box-shadow: var(--shadow-hero);
+    animation: fadeInUp 0.8s ease-out;
+    backdrop-filter: blur(20px);
+}
+
+.terms-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--gradient-primary);
+    box-shadow: var(--shadow-neon);
+    border-radius: 20px 20px 0 0;
+}
+
+.terms-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.terms-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 3.5rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+    position: relative;
+    text-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+}
+
+.terms-subtitle {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.terms-content {
+    color: var(--text-primary);
+    line-height: 1.8;
+}
+
+.terms-section {
+    margin-bottom: 30px;
+    padding: 25px;
+    background: var(--bg-secondary);
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-medium);
+    position: relative;
+    overflow: hidden;
+}
+
+.terms-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: opacity var(--transition-medium);
+}
+
+.terms-section:hover {
+    border-color: var(--neon-purple);
+    background: var(--bg-tertiary);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.terms-section:hover::before {
+    opacity: 1;
+}
+
+.section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    color: white;
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    box-shadow: var(--shadow-neon);
+    position: relative;
+}
+
+.section-number::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    filter: blur(8px);
+    opacity: 0.4;
+    z-index: -1;
+}
+
+.section-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.section-content {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    font-family: 'Inter', sans-serif;
+}
+
+.section-content p {
+    margin-bottom: 12px;
+}
+
+.section-content p:last-child {
+    margin-bottom: 0;
+}
+
+.section-content ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.section-content li {
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.section-content li::before {
+    content: '•';
+    color: var(--neon-purple);
+    font-weight: bold;
+    position: absolute;
+    right: -15px;
+}
+
+.section-content strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.contact-footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color);
+}
+
+.contact-footer h4 {
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 1.3rem;
+}
+
+.contact-info {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.contact-info a {
+    color: var(--neon-purple);
+    text-decoration: none;
+    transition: color var(--transition-medium);
+    font-weight: 600;
+}
+
+.contact-info a:hover {
+    color: var(--neon-pink);
+    text-shadow: 0 0 10px rgba(236, 72, 153, 0.5);
+}
+
+/* Hero Layout Styles */
+.hero-layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.terms-content-right {
+    flex: 1;
+    max-width: 600px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .hero-layout {
+        flex-direction: column;
+        gap: 40px;
+    }
+    
+    .chat-preview {
+        width: 350px;
+        height: 450px;
+    }
+    
+    .terms-content-right {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .terms-container {
+        padding: 100px 15px 40px;
+    }
+    
+    .terms-card {
+        padding: 30px 25px;
+    }
+    
+    .terms-title {
+        font-size: 2.5rem;
+    }
+    
+    .terms-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .section-title {
+        font-size: 1.4rem;
+    }
+    
+    .terms-section {
+        padding: 20px;
+    }
+    
+    .section-number {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+    
+    .chat-preview {
+        width: 300px;
+        height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .terms-title {
+        font-size: 2rem;
+    }
+    
+    .terms-subtitle {
+        font-size: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.2rem;
+    }
+    
+    .terms-section {
+        padding: 15px;
+    }
+    
+    .section-content {
+        font-size: 1rem;
+    }
+    
+    .chat-preview {
+        width: 280px;
+        height: 380px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Particle Background -->
+<div class="particle-bg" id="particleBg"></div>
+
+<!-- Hero Section with Chat and Terms Layout -->
+<section class="hero-section">
+    <div class="hero-layout">
+    
+        <!-- Terms Content on Right -->
+        <div class="terms-content-right">
+            <div class="logo-container">
+                <div class="logo-glow"></div>
+                <h1 class="hero-title">شرایط استفاده</h1>
+                <div class="logo-subtitle">PIMXCHAT - احترام به حقوق کاربران و شفافیت در خدمات</div>
+            </div>
+            
+            <div class="hero-description">
+                <p>در این صفحه با شرایط استفاده، حقوق و مسئولیت‌های خود در PIMXCHAT آشنا شوید. هدف ما ایجاد محیطی امن، شفاف و قابل اعتماد برای همه کاربران است.</p>
+                <p>ما متعهد به حفظ حریم خصوصی شما و ارائه خدمات با کیفیت بالا هستیم.</p>
+            </div>
+            
+            <div class="hero-actions">
+                <a href="/" class="cta-button secondary">
+                    <span>بازگشت به خانه</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9,22 9,12 15,12 15,22"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+            <!-- Chat Preview on Left -->
+            <div class="chat-preview">
+                <div class="preview-header">
+                    <div class="preview-avatar">
+                        <div class="avatar-pulse"></div>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="preview-info">
+                        <h3>PIMXCHAT</h3>
+                        <span class="status">آنلاین</span>
+                    </div>
+                </div>
+                
+                        <div class="preview-messages">
+            <div class="preview-message ai-message">
+                <div class="message-bubble">
+                    <p>سلام! من PIMXCHAT هستم. چطور می‌تونم کمکتون کنم؟</p>
+                </div>
+            </div>
+            <div class="preview-message user-message">
+                <div class="message-bubble">
+                    <p>شرایط استفاده چیه؟</p>
+                </div>
+            </div>
+            <div class="preview-message ai-message">
+                <div class="message-bubble">
+                    <p>شرایط استفاده شامل قوانین و مقرراتی است که برای استفاده از خدمات PIMXCHAT باید رعایت کنید.</p>
+                </div>
+            </div>
+            <div class="preview-message user-message">
+                <div class="message-bubble">
+                    <p>حریم خصوصی چطور محافظت می‌شه؟</p>
+                </div>
+            </div>
+            <div class="preview-message ai-message">
+                <div class="message-bubble">
+                    <p>اطلاعات شما با بالاترین استانداردهای امنیتی محافظت می‌شود و هرگز بدون اجازه شما به اشتراک گذاشته نمی‌شود.</p>
+                </div>
+            </div>
+        </div>
+            </div>
+            
+    </div>
+</section>
+
+<!-- Legal Principles Section -->
+<section class="features-section">
+    <div class="container">
+        <h2 class="section-title">اصول حقوقی و قانونی</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
+                <h3>حفاظت از حریم خصوصی</h3>
+                <p>اطلاعات شخصی شما طبق قوانین جمهوری اسلامی ایران و استانداردهای بین‌المللی محافظت می‌شود و هرگز بدون اجازه شما به اشتراک گذاشته نمی‌شود.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 12l2 2 4-4"/>
+                        <path d="M21 12c-1 0-2-1-2-2s1-2 2-2 2 1 2 2-1 2-2 2z"/>
+                    </svg>
+                </div>
+                <h3>شفافیت قانونی</h3>
+                <p>تمام شرایط استفاده، سیاست‌های حریم خصوصی و حقوق شما به صورت شفاف و قابل فهم ارائه شده‌اند تا با اطمینان کامل از خدمات استفاده کنید.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <h3>امنیت داده‌ها</h3>
+                <p>ما از فناوری‌های رمزگذاری پیشرفته و پروتکل‌های امنیتی روز برای حفاظت از داده‌های شما استفاده می‌کنیم.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 8v4l3 3"/>
+                    </svg>
+                </div>
+                <h3>حقوق قانونی کاربر</h3>
+                <p>شما حق دسترسی، تصحیح، حذف و محدود کردن پردازش اطلاعات خود را طبق قوانین حفاظت از داده‌ها دارید.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </div>
+                <h3>پشتیبانی حقوقی</h3>
+                <p>تیم پشتیبانی ما آماده پاسخگویی به سوالات حقوقی و قانونی شما در مورد شرایط استفاده و حریم خصوصی است.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2v20M2 12h20"/>
+                    </svg>
+                </div>
+                <h3>به‌روزرسانی قوانین</h3>
+                <p>ما به طور منظم شرایط استفاده را بررسی و به‌روزرسانی می‌کنیم تا با قوانین جدید و نیازهای کاربران هماهنگ باشد.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Simplified Terms Section -->
+<div class="terms-container">
+    <div class="terms-card">
+        <div class="terms-header">
+            <h2 class="terms-title">شرایط استفاده</h2>
+            <p class="terms-subtitle">لطفاً این شرایط را با دقت مطالعه کنید. استفاده از خدمات PIMXCHAT به معنای پذیرش کامل این شرایط است.</p>
+        </div>
+        
+        <div class="terms-content">
+            <div class="terms-section">
+                <div class="section-title">
+                    <div class="section-number">1</div>
+                    پذیرش شرایط
+                </div>
+                <div class="section-content">
+                    <p>با استفاده از خدمات PIMXCHAT، شما این شرایط را می‌پذیرید و متعهد می‌شوید که به آنها پایبند باشید. اگر با هر بخشی از این شرایط موافق نیستید، لطفاً از استفاده از خدمات ما خودداری کنید.</p>
+                </div>
+            </div>
+            
+            <div class="terms-section">
+                <div class="section-title">
+                    <div class="section-number">2</div>
+                    استفاده مجاز
+                </div>
+                <div class="section-content">
+                    <p>شما متعهد می‌شوید که از خدمات ما فقط برای اهداف قانونی و اخلاقی استفاده کنید. استفاده از خدمات برای تولید محتوای غیرقانونی، نقض حقوق مالکیت معنوی، آزار و اذیت دیگران یا هرگونه فعالیت غیرقانونی ممنوع است.</p>
+                </div>
+            </div>
+            
+            <div class="terms-section">
+                <div class="section-title">
+                    <div class="section-number">3</div>
+                    حریم خصوصی و امنیت
+                </div>
+                <div class="section-content">
+                    <p>ما متعهد به محافظت از حریم خصوصی شما هستیم. اطلاعات شخصی شما طبق قوانین جمهوری اسلامی ایران محافظت می‌شود و هرگز بدون اجازه شما به اشتراک گذاشته نمی‌شود.</p>
+                </div>
+            </div>
+            
+            <div class="terms-section">
+                <div class="section-title">
+                    <div class="section-number">4</div>
+                    مسئولیت‌ها
+                </div>
+                <div class="section-content">
+                    <p>شما مسئول تمام محتوای تولید شده و استفاده از آن هستید. PIMXCHAT مسئولیتی در قبال محتوای تولید شده توسط هوش مصنوعی ندارد.</p>
+                </div>
+            </div>
+            
+            <div class="terms-section">
+                <div class="section-title">
+                    <div class="section-number">5</div>
+                    تغییرات و فسخ
+                </div>
+                <div class="section-content">
+                    <p>ما حق تغییر این شرایط را در هر زمان محفوظ می‌داریم. شما می‌توانید در هر زمان حساب خود را حذف کنید. در صورت نقض شرایط، حساب شما لغو می‌شود.</p>
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+</div>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <h2>آیا شرایط استفاده را مطالعه کردید؟</h2>
+        <p>با پذیرش شرایط، می‌توانید از تمام امکانات PIMXCHAT استفاده کنید</p>
+        <div class="cta-actions">
+            <a href="{% url 'pimxchat:chat' %}" class="cta-button primary">
+                <span>شروع چت</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m22 2-7 20-4-9-9-4 20-7z"/>
+                    <path d="M22 2 11 13"/>
+                </svg>
+            </a>
+            <a href="/" class="cta-button secondary">
+                <span>بازگشت به خانه</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+// Add particle background animation
+document.addEventListener('DOMContentLoaded', function() {
+    const particleBg = document.getElementById('particleBg');
+    if (particleBg) {
+        // Create particles
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 3 + 's';
+            particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            particleBg.appendChild(particle);
+        }
+    }
+});
+</script>
+{% endblock %} 
+ 

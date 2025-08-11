@@ -1,0 +1,18 @@
+{% extends 'accounts/email_base.html' %}
+{% block subject %}ورود جدید به حساب شما - PIMXCHAT{% endblock %}
+{% block email_content %}
+    <h2 style="color:#8b5cf6;font-size:1.2rem;font-weight:700;margin:0 0 16px 0;">ورود جدید به حساب شما</h2>
+    <p style="color:#333;font-size:1rem;line-height:1.8;margin:0 0 24px 0;">
+        سلام {{ user.username }} عزیز،<br>
+        یک ورود جدید به حساب شما در <b>PIMXCHAT</b> ثبت شد. جزئیات ورود:
+    </p>
+    <div style="background:#f3f0fa;border-radius:12px;padding:16px 0;margin:24px 0 16px 0;text-align:center;direction:ltr;">
+        <div style="color:#8b5cf6;font-weight:700;">زمان ورود: {{ login_time }}</div>
+        <div style="color:#3b82f6;">تاریخ: {{ login_date }}</div>
+        <div style="color:#ec4899;">IP: {{ ip }}</div>
+        <div style="color:#333;">موقعیت: {{ location }}</div>
+        <div style="color:#333;">دستگاه: {{ user_agent }}</div>
+        <div style="color:#333;">تعداد ورود: {{ login_count }}</div>
+    </div>
+    <p style="color:#ef4444;font-size:0.98rem;margin:0 0 16px 0;">اگر این ورود شما نبوده، لطفاً فوراً رمز عبور خود را تغییر دهید.</p>
+{% endblock %} 

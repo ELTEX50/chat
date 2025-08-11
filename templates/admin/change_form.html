@@ -1,0 +1,573 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}{{ title }} - مدیریت PIMXCHAT{% endblock %}
+
+{% block style %}
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --neon-purple: #8b5cf6;
+        --neon-blue: #3b82f6;
+        --neon-pink: #ec4899;
+        --neon-green: #10b981;
+        --bg-primary: #0a0a0a;
+        --bg-secondary: #111111;
+        --bg-card: rgba(26, 26, 26, 0.8);
+        --text-primary: #ffffff;
+        --text-secondary: #a0a0a0;
+        --border-color: #2a2a2a;
+        --gradient-primary: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 50%, #ec4899 100%);
+        --gradient-button: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+        --shadow-hover: 0 12px 40px rgba(139, 92, 246, 0.2);
+        --transition-medium: 0.3s ease;
+    }
+
+    body {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* Particle Background */
+    .particle-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background: radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 40%, rgba(236, 72, 153, 0.05) 0%, transparent 50%);
+    }
+
+    /* Main container styling */
+    .admin-section {
+        min-height: 100vh;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .admin-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--gradient-primary);
+        opacity: 0.05;
+        z-index: -1;
+    }
+
+    .admin-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-width: 180px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    /* Form container styling */
+    .admin-form-container {
+        background: var(--bg-card);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 8px;
+        box-shadow: var(--shadow-card);
+        position: relative;
+        overflow: hidden;
+        width: 750px;
+    }
+
+    .admin-form-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--gradient-primary);
+        opacity: 0.05;
+        z-index: -1;
+    }
+
+    /* Header styling */
+    .admin-header {
+        text-align: center;
+        margin-bottom: 6px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .admin-icon {
+        width: 20px;
+        height: 20px;
+        background: var(--gradient-button);
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 4px;
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+    }
+
+    .admin-icon svg {
+        width: 10px;
+        height: 10px;
+        color: white;
+    }
+
+    .admin-title {
+        font-family: 'Orbitron', monospace;
+        font-weight: 900;
+        font-size: 1.2rem;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 2px;
+    }
+
+    .admin-subtitle {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        font-weight: 300;
+    }
+
+    /* Form styling */
+    .form-group {
+        margin-bottom: 6px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 1px;
+        color: var(--text-primary);
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 3px 6px;
+        background: rgba(10, 10, 10, 0.6);
+        border: 1px solid var(--border-color);
+        border-radius: 3px;
+        color: var(--text-primary);
+        font-size: 0.9rem;
+        transition: all var(--transition-medium);
+        backdrop-filter: blur(10px);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--neon-purple);
+        box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.1);
+        background: rgba(10, 10, 10, 0.8);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+        color: var(--text-secondary);
+    }
+
+    /* Checkbox styling */
+    .form-group input[type="checkbox"] {
+        width: auto;
+        margin-left: 6px;
+        transform: scale(1.0);
+    }
+
+    /* File input styling */
+    .form-group input[type="file"] {
+        padding: 6px;
+        border: 2px dashed var(--border-color);
+        background: rgba(10, 10, 10, 0.4);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all var(--transition-medium);
+    }
+
+    .form-group input[type="file"]:hover {
+        border-color: var(--neon-purple);
+        background: rgba(139, 92, 246, 0.1);
+    }
+
+    /* Error styling */
+    .error-message {
+        background: rgba(220, 38, 38, 0.1);
+        border: 1px solid rgba(220, 38, 38, 0.3);
+        color: #fca5a5;
+        padding: 6px;
+        border-radius: 4px;
+        margin-top: 4px;
+        font-size: 0.85rem;
+        border-right: 3px solid #dc2626;
+    }
+
+    .field-error {
+        color: #fca5a5;
+        font-size: 0.8rem;
+        margin-top: 2px;
+        padding: 3px 6px;
+        background: rgba(220, 38, 38, 0.1);
+        border-radius: 3px;
+        border-right: 3px solid #dc2626;
+    }
+
+    /* Action buttons */
+    .admin-actions {
+        display: flex;
+        gap: 3px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 6px;
+        padding-top: 6px;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .admin-action-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        padding: 4px 8px;
+        border: none;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all var(--transition-medium);
+        position: relative;
+        overflow: hidden;
+        min-width: 50px;
+        justify-content: center;
+    }
+
+    .admin-action-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 80%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left var(--transition-medium);
+    }
+
+    .admin-action-btn:hover::before {
+        left: 100%;
+    }
+
+    .admin-action-btn:first-child {
+        background: var(--gradient-button);
+        color: white;
+    }
+
+    .admin-action-btn:first-child:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-hover);
+    }
+
+    .admin-action-btn:not(:first-child) {
+        background: transparent;
+        border: 1px solid var(--border-color);
+        color: var(--text-secondary);
+    }
+
+    .admin-action-btn:not(:first-child):hover {
+        border-color: var(--neon-purple);
+        color: var(--neon-purple);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+    }
+
+    .admin-action-btn svg {
+        width: 12px;
+        height: 12px;
+    }
+
+
+
+    /* Inline formsets */
+    .admin-inlines {
+        margin-top: 30px;
+    }
+
+    .admin-inline-card {
+        background: rgba(26, 26, 26, 0.6);
+        border: 1px solid var(--border-color);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+    }
+
+    .admin-inline-card h4 {
+        color: var(--text-primary);
+        margin: 0 0 20px 0;
+        font-size: 1.2rem;
+        font-weight: 600;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 10px;
+    }
+
+    /* Success message */
+    .admin-success {
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        color: #6ee7b7;
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        font-size: 0.95rem;
+        border-right: 3px solid var(--neon-green);
+    }
+
+    /* Loading state */
+    .admin-form-container.loading {
+        opacity: 0.7;
+        pointer-events: none;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .admin-form-container {
+            padding: 30px 20px;
+        }
+
+        .admin-actions {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .admin-action-btn {
+            width: 100%;
+            max-width: 300px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .admin-form-container {
+            padding: 25px 15px;
+        }
+        
+        .admin-title {
+            font-size: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Particle Background -->
+<div class="particle-bg" id="particleBg"></div>
+
+<!-- Admin Section -->
+    <div class="admin-container">
+        <div class="admin-form-container">
+            <div class="admin-header">
+                <div class="admin-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+        </div>
+                <h1 class="admin-title">{{ title }}</h1>
+    </div>
+    
+    {% if adminform.form.errors %}
+            <div class="error-message">
+                <strong>خطاهای موجود:</strong>
+        <ul style="margin-top: 10px; padding-right: 20px;">
+            {% for field, errors in adminform.form.errors.items %}
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    
+    <form method="post" id="change-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {% if adminform.form.fields %}
+            {% for fieldset in adminform %}
+                {% if fieldset.name %}
+                        <div class="form-group">
+                            <label style="font-size: 1.1rem; color: var(--neon-purple); margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
+                                {{ fieldset.name }}
+                            </label>
+                </div>
+                {% endif %}
+                
+                {% for line in fieldset %}
+                    {% for field in line %}
+                        {% if field.is_checkbox %}
+                                <div class="form-group">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                {{ field.field }}
+                                        <label for="{{ field.field.id_for_label }}" style="margin: 0;">{{ field.field.label }}</label>
+                                    </div>
+                                {% if field.field.help_text %}
+                                        <div style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">{{ field.field.help_text }}</div>
+                                {% endif %}
+                                {% if field.field.errors %}
+                                    <div class="field-error">
+                                        {% for error in field.field.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                        </div>
+                        {% else %}
+                                <div class="form-group">
+                                    <label for="{{ field.field.id_for_label }}">{{ field.field.label }}</label>
+                                    {{ field.field }}
+                                {% if field.field.help_text %}
+                                        <div style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">{{ field.field.help_text }}</div>
+                                {% endif %}
+                                {% if field.field.errors %}
+                                    <div class="field-error">
+                                        {% for error in field.field.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            {% endfor %}
+        {% else %}
+                    <div class="form-group">
+                        <div style="text-align: center; color: var(--text-secondary);">
+                            <p>هیچ فیلدی برای نمایش وجود ندارد.</p>
+                            <p>لطفاً تنظیمات Admin را بررسی کنید.</p>
+                </div>
+            </div>
+        {% endif %}
+        
+        {% if adminform.form.non_field_errors %}
+                    <div class="error-message">
+                {% for error in adminform.form.non_field_errors %}{{ error }}<br>{% endfor %}
+            </div>
+        {% endif %}
+        
+        {% if inline_admin_formsets %}
+            <div class="admin-inlines">
+                {% for inline_admin_formset in inline_admin_formsets %}
+                    <div class="admin-inline-card">
+                                <h4>{{ inline_admin_formset.opts.verbose_name_plural }}</h4>
+                        {{ inline_admin_formset }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+                <div class="admin-actions">
+            <button type="submit" class="admin-action-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                    <polyline points="17,21 17,13 7,13 7,21"/>
+                    <polyline points="7,3 7,8 15,8"/>
+                </svg>
+                        <span>ذخیره تغییرات</span>
+            </button>
+            <a href="javascript:history.back()" class="admin-action-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                <span>بازگشت</span>
+            </a>
+            <a href="/" class="admin-action-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
+                </svg>
+                <span>صفحه اصلی</span>
+            </a>
+        </div>
+    </form>
+        </div>
+        
+
+</div>
+
+<script>
+// Add loading state to form submission
+document.getElementById('change-form').addEventListener('submit', function() {
+    document.querySelector('.admin-form-container').classList.add('loading');
+});
+
+// Add smooth scrolling to error messages
+document.addEventListener('DOMContentLoaded', function() {
+    const errorMessages = document.querySelectorAll('.error-message, .field-error');
+    if (errorMessages.length > 0) {
+        errorMessages[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+});
+
+// Particle background effect
+function createParticle() {
+    const particle = document.createElement('div');
+    particle.style.position = 'fixed';
+    particle.style.width = '2px';
+    particle.style.height = '2px';
+    particle.style.background = 'rgba(139, 92, 246, 0.3)';
+    particle.style.borderRadius = '50%';
+    particle.style.pointerEvents = 'none';
+    particle.style.zIndex = '-1';
+    
+    const startX = Math.random() * window.innerWidth;
+    const startY = window.innerHeight + 10;
+    const endX = startX + (Math.random() - 0.5) * 200;
+    const endY = -10;
+    const duration = 8000 + Math.random() * 4000;
+    
+    particle.style.left = startX + 'px';
+    particle.style.top = startY + 'px';
+    
+    document.body.appendChild(particle);
+    
+    const startTime = Date.now();
+    
+    function animate() {
+        const elapsed = Date.now() - startTime;
+        const progress = elapsed / duration;
+        
+        if (progress >= 1) {
+            particle.remove();
+            return;
+        }
+        
+        const currentX = startX + (endX - startX) * progress;
+        const currentY = startY + (endY - startY) * progress;
+        
+        particle.style.left = currentX + 'px';
+        particle.style.top = currentY + 'px';
+        
+        requestAnimationFrame(animate);
+    }
+    
+    animate();
+}
+
+// Create particles periodically
+setInterval(createParticle, 2000);
+createParticle(); // Create initial particle
+</script>
+{% endblock %} 

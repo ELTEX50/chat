@@ -1,0 +1,67 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}ورود به مدیریت - PIMXCHAT{% endblock %}
+
+{% block content %}
+<div class="admin-card">
+    <div class="card-header">
+        <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                <polyline points="10,17 15,12 10,7"/>
+                <line x1="15" y1="12" x2="3" y2="12"/>
+            </svg>
+        </div>
+        <h3 class="card-title">ورود به پنل مدیریت</h3>
+    </div>
+    
+    {% if form.errors %}
+    <div class="admin-message">
+        نام کاربری یا رمز عبور اشتباه است. لطفاً دوباره تلاش کنید.
+    </div>
+    {% endif %}
+    
+    <form method="post" id="login-form">
+        {% csrf_token %}
+        <div class="admin-item">
+            <div class="admin-info">
+                <div class="admin-label">نام کاربری</div>
+                <div class="admin-description-text">نام کاربری خود را وارد کنید</div>
+            </div>
+            <div class="admin-control">
+                <input type="text" name="username" required style="background: rgba(10, 10, 10, 0.6); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px; color: #e5e7eb; padding: 8px 12px; font-family: 'Inter', sans-serif; width: 200px;">
+            </div>
+        </div>
+        
+        <div class="admin-item">
+            <div class="admin-info">
+                <div class="admin-label">رمز عبور</div>
+                <div class="admin-description-text">رمز عبور خود را وارد کنید</div>
+            </div>
+            <div class="admin-control">
+                <input type="password" name="password" required style="background: rgba(10, 10, 10, 0.6); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px; color: #e5e7eb; padding: 8px 12px; font-family: 'Inter', sans-serif; width: 200px;">
+            </div>
+        </div>
+        
+        <div class="admin-actions">
+            <button type="submit" class="admin-action-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                    <polyline points="10,17 15,12 10,7"/>
+                    <line x1="15" y1="12" x2="3" y2="12"/>
+                </svg>
+                <span>ورود</span>
+            </button>
+            
+            <a href="/" class="admin-action-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
+                </svg>
+                <span>صفحه اصلی</span>
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %} 

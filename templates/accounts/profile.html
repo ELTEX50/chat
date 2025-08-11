@@ -1,0 +1,326 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load jalali_filters %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Profile - Login Style */
+.profile-section {
+    min-height: calc(100vh - 200px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 80px 5% 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-hero);
+    opacity: 0.1;
+    z-index: -1;
+}
+
+.profile-card-centered {
+    background: rgb(255, 255, 255);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 50px 40px 40px 40px;
+    box-shadow: var(--shadow-card);
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-card-centered::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-primary);
+    opacity: 0.05;
+    z-index: -1;
+}
+
+.profile-avatar-centered {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 25px auto;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 0 12px rgba(139, 92, 246, 0.08);
+    transition: transform 0.35s cubic-bezier(.4,2,.6,1), box-shadow 0.35s cubic-bezier(.4,2,.6,1);
+}
+
+.profile-avatar-centered:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 24px rgba(139, 92, 246, 0.18);
+    z-index: 2;
+}
+
+.avatar-text-centered {
+    color: white;
+    font-weight: 900;
+    font-size: 3.8rem;
+    position: relative;
+    z-index: 1;
+}
+
+.profile-picture-centered {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+    transition: inherit;
+}
+
+.profile-title-centered {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 2.6rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.profile-info-centered {
+    width: 100%;
+    margin-bottom: 35px;
+}
+
+.profile-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background: rgb(228, 228, 228);
+    border-radius: 12px;
+    padding: 15px 22px;
+    border: 1px solid rgba(139, 92, 246, 0.08);
+}
+
+.profile-info-label {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+.profile-info-value {
+    color: var(--text-primary);
+    font-size: 1.15rem;
+    font-weight: 600;
+    text-align: left;
+}
+
+.profile-status {
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.profile-actions-centered {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.action-btn-centered {
+    background: var(--gradient-button);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.action-btn-centered::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left var(--transition-medium);
+}
+
+.action-btn-centered:hover::before {
+    left: 100%;
+}
+
+.action-btn-centered:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    color: white;
+    text-decoration: none;
+}
+
+.action-btn-centered svg {
+    width: 16px;
+    height: 16px;
+}
+
+@media (max-width: 600px) {
+    .profile-card-centered {
+        padding: 30px 15px 20px 15px;
+        max-width: 98vw;
+    }
+    .profile-title-centered {
+        font-size: 1.8rem;
+    }
+    .profile-avatar-centered {
+        width: 140px;
+        height: 140px;
+    }
+    .avatar-text-centered {
+        font-size: 2.8rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Particle Background -->
+<div class="particle-bg" id="particleBg"></div>
+
+<!-- Profile Section -->
+<section class="profile-section">
+    <div class="profile-card-centered">
+        <div class="profile-avatar-centered">
+            {% if user.profile_picture %}
+                <img src="{{ user.profile_picture.url }}" alt="تصویر پروفایل {{ user.username }}" class="profile-picture-centered" onerror="this.onerror=null;this.src='/static/img/default_profile.png';">
+            {% else %}
+                <div class="avatar-text-centered">{{ user.username|first|upper }}</div>
+            {% endif %}
+        </div>
+        <h1 class="profile-title-centered">پروفایل کاربری</h1>
+        <div class="profile-info-centered">
+            <div class="profile-info-row">
+                <span class="profile-info-label">نام کاربری</span>
+                <span class="profile-info-value">{{ user.username }}</span>
+            </div>
+            <div class="profile-info-row">
+                <span class="profile-info-label">ایمیل</span>
+                <span class="profile-info-value">{{ user.email }}</span>
+            </div>
+            <div class="profile-info-row">
+                <span class="profile-info-label">تاریخ عضویت</span>
+                <span class="profile-info-value">{{ user.date_joined|jalali_date }}</span>
+            </div>
+            <div class="profile-info-row">
+                <span class="profile-info-label">وضعیت حساب</span>
+                <span class="profile-info-value profile-status">
+                    {% if user.is_verified %}
+                        <span style="color: #10b981;">✓ تایید شده</span>
+                    {% else %}
+                        <span style="color: #ef4444;">✗ تایید نشده</span>
+                    {% endif %}
+                </span>
+            </div>
+            <div class="profile-info-row">
+                <span class="profile-info-label">آخرین ورود</span>
+                <span class="profile-info-value">
+                    {% if user.last_login_time %}
+                        {{ user.last_login_time|jalali_date:"%Y/%m/%d - %H:%M" }}
+                    {% else %}
+                        هرگز
+                    {% endif %}
+                </span>
+            </div>
+            <div class="profile-info-row">
+                <span class="profile-info-label">تعداد چت‌ها</span>
+                <span class="profile-info-value">{{ user.chat_sessions.count }}</span>
+            </div>
+            <div class="profile-info-row">
+                <span class="profile-info-label">تعداد ورود</span>
+                <span class="profile-info-value">{{ user.login_count }}</span>
+            </div>
+        </div>
+        <div class="profile-actions-centered">
+            <a href="{% url 'accounts:edit_profile' %}" class="action-btn-centered">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                </svg>
+                ویرایش پروفایل
+            </a>
+            <a href="{% url 'accounts:change_email' %}" class="action-btn-centered">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                تغییر ایمیل
+            </a>
+            <a href="{% url 'accounts:change_password' %}" class="action-btn-centered">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <circle cx="12" cy="16" r="1"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                تغییر رمز عبور
+            </a>
+            <a href="{% url 'pimxchat:chat' %}" class="action-btn-centered">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                شروع چت
+            </a>
+        </div>
+    </div>
+</section>
+
+<script>
+// Add particle background animation
+document.addEventListener('DOMContentLoaded', function() {
+    const particleBg = document.getElementById('particleBg');
+    if (particleBg) {
+        // Create particles
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 3 + 's';
+            particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            particleBg.appendChild(particle);
+        }
+    }
+});
+</script>
+{% endblock %} 

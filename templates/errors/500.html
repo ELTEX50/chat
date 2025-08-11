@@ -1,0 +1,354 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}خطای سرور - PIMXCHAT{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Error Page Styles - Matching Home Page Design */
+.error-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-hero);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.error-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-hero);
+    opacity: 0.1;
+    z-index: -1;
+}
+
+.error-content {
+    background: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.error-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(99, 102, 241, 0.1));
+    z-index: -1;
+}
+
+.error-code {
+    font-family: 'Orbitron', monospace;
+    font-size: 8rem;
+    font-weight: 900;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+    line-height: 1;
+    position: relative;
+}
+
+.error-code::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.3;
+    z-index: -1;
+}
+
+.error-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.error-message {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    line-height: 1.6;
+    font-family: 'Inter', sans-serif;
+}
+
+.error-message strong {
+    color: var(--neon-purple);
+    font-weight: 600;
+}
+
+.error-suggestions {
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+    backdrop-filter: blur(10px);
+}
+
+.suggestions-title {
+    color: var(--neon-purple);
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    font-family: 'Orbitron', monospace;
+}
+
+.suggestions-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.suggestions-list li {
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    padding-right: 20px;
+    position: relative;
+    font-family: 'Inter', sans-serif;
+}
+
+.suggestions-list li:before {
+    content: '•';
+    color: var(--neon-purple);
+    position: absolute;
+    right: 0;
+    font-weight: bold;
+}
+
+.error-actions {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.error-actions a, .error-actions button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    border-radius: 50px;
+    background: var(--gradient-primary);
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all var(--transition-medium);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+}
+
+.error-actions a::before, .error-actions button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left var(--transition-medium);
+}
+
+.error-actions a:hover::before, .error-actions button:hover::before {
+    left: 100%;
+}
+
+.error-actions a:hover, .error-actions button:hover {
+    background: var(--gradient-hero);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.error-support {
+    margin-top: 18px;
+    color: #aaa;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    background: rgba(17, 17, 17, 0.8);
+    border-radius: 10px;
+    padding: 15px;
+    border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.error-support span {
+    color: var(--neon-purple);
+    font-weight: 600;
+}
+
+/* Particle Background for Error Pages */
+.error-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
+}
+
+.error-particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--neon-pink);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .error-code {
+        font-size: 6rem;
+    }
+    
+    .error-title {
+        font-size: 1.5rem;
+    }
+    
+    .error-actions {
+        flex-direction: column;
+    }
+    
+    .error-content {
+        padding: 30px 20px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Particle Background -->
+<div class="error-particles" id="errorParticles"></div>
+
+<div class="error-container">
+    <div class="error-content">
+        <div class="error-code">500</div>
+        <h2 class="error-title">خطای داخلی سرور</h2>
+        <p class="error-message">
+            {% if user.is_authenticated %}
+                سلام <strong>{{ user.get_full_name|default:user.email }}</strong>!<br>
+            {% endif %}
+            متاسفانه مشکلی در سرور رخ داده است. تیم فنی ما در حال بررسی این مشکل است.
+        </p>
+        
+        {% if error_message %}
+            <div class="error-suggestions">
+                <div class="suggestions-title">جزئیات خطا:</div>
+                <p>{{ error_message }}</p>
+            </div>
+        {% endif %}
+        
+        <div class="error-suggestions">
+            <div class="suggestions-title">پیشنهادات:</div>
+            <ul class="suggestions-list">
+                <li>لطفاً چند دقیقه صبر کنید و دوباره تلاش کنید</li>
+                <li>صفحه را رفرش کنید</li>
+                <li>کش مرورگر خود را پاک کنید</li>
+                <li>با پشتیبانی فنی تماس بگیرید</li>
+            </ul>
+        </div>
+        
+        <div class="error-actions">
+            <a href="/" class="cta-button primary">
+                <span>صفحه اصلی</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
+                </svg>
+            </a>
+            
+            {% if user.is_authenticated %}
+                <a href="/dashboard/" class="cta-button secondary">
+                    <span>داشبورد</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                </a>
+            {% else %}
+                <a href="/accounts/login/" class="cta-button secondary">
+                    <span>ورود</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                        <polyline points="10,17 15,12 10,7"/>
+                        <line x1="15" y1="12" x2="3" y2="12"/>
+                    </svg>
+                </a>
+            {% endif %}
+
+        </div>
+        
+
+    </div>
+</div>
+
+<script>
+// Particle animation for error pages
+function createParticles() {
+    const container = document.getElementById('errorParticles');
+    const particleCount = 50;
+    
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'error-particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+        container.appendChild(particle);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', createParticles);
+</script>
+{% endblock %} 

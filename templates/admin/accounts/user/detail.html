@@ -1,0 +1,181 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static %}
+
+{% block title %}جزئیات کاربر - {{ user.username }} - مدیریت PIMXCHAT{% endblock %}
+
+{% block content %}
+<div class="admin-card">
+    <div class="card-header">
+        <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+            </svg>
+        </div>
+        <h3 class="card-title">جزئیات کاربر: {{ user.username }}</h3>
+    </div>
+    
+    <div class="admin-item">
+        <div class="admin-info">
+            <div class="admin-label">نام کاربری</div>
+            <div class="admin-description-text">{{ user.username }}</div>
+        </div>
+        <div class="admin-control">
+            {% if user.profile_picture %}
+                <img src="{{ user.profile_picture.url }}" alt="تصویر پروفایل" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" onerror="this.onerror=null;this.src='/static/img/default_profile.png';">
+            {% else %}
+                <div style="width: 50px; height: 50px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                    {{ user.username|first|upper }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="admin-item">
+        <div class="admin-info">
+            <div class="admin-label">ایمیل</div>
+            <div class="admin-description-text">{{ user.email }}</div>
+        </div>
+        <div class="admin-control">
+            <span style="color: var(--text-secondary);">{{ user.email }}</span>
+        </div>
+    </div>
+    
+    <div class="admin-item">
+        <div class="admin-info">
+            <div class="admin-label">نام و نام خانوادگی</div>
+            <div class="admin-description-text">{{ user.first_name|default:"-" }} {{ user.last_name|default:"-" }}</div>
+        </div>
+        <div class="admin-control">
+            <span style="color: var(--text-secondary);">
+                {% if user.first_name or user.last_name %}
+                    {{ user.first_name|default:"" }} {{ user.last_name|default:"" }}
+                {% else %}
+                    تنظیم نشده
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    
+    <div class="admin-item">
+        <div class="admin-info">
+            <div class="admin-label">وضعیت حساب</div>
+            <div class="admin-description-text">فعال یا غیرفعال بودن حساب کاربری</div>
+        </div>
+        <div class="admin-control">
+            {% if user.is_active %}
+                <span style="color: #10b981; font-weight: 600;">فعال</span>
+            {% else %}
+                <span style="color: #ef4444; font-weight: 600;">غیرفعال</span>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="admin-item">
+        <div class="admin-info">
+            <div class="admin-label">تایید ایمیل</div>
+            <div class="admin-description-text">وضعیت تایید آدرس ایمیل</div>
+        </div>
+        <div class="admin-control">
+            {% if user.is_verified %}
+                <span style="color: #10b981; font-weight: 600;">تایید شده</span>
+            {% else %}
+                <span style="color: #f59e0b; font-weight: 600;">تایید نشده</span>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="admin-item">
+        <div class="admin-info">
+            <div class="admin-label">تاریخ عضویت</div>
+            <div class="admin-description-text">زمان ثبت‌نام در سیستم</div>
+        </div>
+        <div class="admin-control">
+                                    <span style="color: var(--text-secondary);">{{ user.date_joined|date:"Y/m/d H:i" }}</span>
+        </div>
+    </div>
+    
+    <div class="admin-item">
+        <div class="admin-info">
+            <div class="admin-label">آخرین ورود</div>
+            <div class="admin-description-text">زمان آخرین ورود به سیستم</div>
+        </div>
+        <div class="admin-control">
+            {% if user.last_login %}
+                                        <span style="color: var(--text-secondary);">{{ user.last_login|date:"Y/m/d H:i" }}</span>
+            {% else %}
+                <span style="color: var(--text-secondary);">هیچ‌وقت</span>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="admin-item">
+        <div class="admin-info">
+            <div class="admin-label">تعداد ورود</div>
+            <div class="admin-description-text">تعداد دفعات ورود به سیستم</div>
+        </div>
+        <div class="admin-control">
+            <span style="color: var(--text-secondary);">{{ user.login_count|default:0 }}</span>
+        </div>
+    </div>
+    
+    <div class="admin-item">
+        <div class="admin-info">
+            <div class="admin-label">زبان</div>
+            <div class="admin-description-text">زبان انتخابی کاربر</div>
+        </div>
+        <div class="admin-control">
+            <span style="color: var(--text-secondary);">{{ user.language|default:"فارسی" }}</span>
+        </div>
+    </div>
+    
+    <div class="admin-item">
+        <div class="admin-info">
+            <div class="admin-label">تم</div>
+            <div class="admin-description-text">تم انتخابی کاربر</div>
+        </div>
+        <div class="admin-control">
+            <span style="color: var(--text-secondary);">{{ user.theme|default:"تیره" }}</span>
+        </div>
+    </div>
+</div>
+
+<div class="admin-actions">
+    <a href="{% url 'admin:accounts_user_change' user.id %}" class="admin-action-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        </svg>
+        <span>ویرایش کاربر</span>
+    </a>
+    
+    <form method="post" style="display: inline;" onsubmit="return confirm('آیا مطمئن هستید که می‌خواهید تمام پیام‌های چت این کاربر را پاک کنید؟');">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="clear_user_chat">
+        <input type="hidden" name="_selected_action" value="{{ user.id }}">
+        <button type="submit" class="admin-action-btn" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+            </svg>
+            <span>پاک کردن چت</span>
+        </button>
+    </form>
+    
+    <a href="{% url 'admin:accounts_user_changelist' %}" class="admin-action-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        <span>بازگشت به لیست</span>
+    </a>
+    
+    <a href="{% url 'admin:index' %}" class="admin-action-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"/>
+            <rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        <span>داشبورد</span>
+    </a>
+</div>
+{% endblock %} 
